@@ -1,0 +1,57 @@
+@font-face {
+  font-family: 'Manrope';
+  font-style: normal;
+  src: url(../assets/fonts/Manrope-Regular.ttf);
+}
+
+:root {
+  --black: #17191F;
+  --black-2: #323441;
+  --orange: #DB5D2F;
+  --orange-2: #F26430;
+  --white: #FCFCFC;
+  --green: #23967F;
+  --green-low: #197865;
+  --green-high-2: #D1FFE4;
+  --green-high: #2EBCA0;
+
+  --ion-background-color: linear-gradient(to bottom right, var(--black), var(--black-2));
+
+  /* BORDER RADIUS */
+  --radius-sm: 8px;
+  --radius-md: 14px;
+  --radius-lg: 18px;
+  --radius-full: 50%;
+
+  /* SPACING */
+  --space-1: 1px;
+  --space-2: 4px;
+  --space-3: 8px;
+  --space-4: 12px;
+  --space-5: 16px;
+  --space-6: 20px;
+  --space-7: 24px;
+  --space-8: 32px;
+  --space-10: 40px;
+  --space-12: 48px;
+  --space-16: 64px;
+  --space-20: 80px;
+
+  /* FONTSIZE */
+  --fontsize-xl: 46px;
+  --fontsize-lg: 34px;
+  --fontsize-md: 24px;
+  --fontsize-sm: 16px;
+  --fontsize-xs: 12px;
+
+  /* BOX SHADOW */
+  --boxshadow-default: 0 0 15px rgba(0, 0, 0, 0.2);
+
+  /* BREAKPOINTS */
+  --small-device: 960px;
+  --tablet: 768px;
+  --mobile: 480px;
+
+  /* OVERLAY */
+  --overlay: rgba(0, 0, 0, 0.5);
+}

@@ -1,0 +1,7 @@
+{
+  "name": "Compra Rápida",
+  "integrations": {
+    "capacitor": {}
+  },
+  "type": "custom"
+}

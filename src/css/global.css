@@ -1,0 +1,35 @@
+
+  
+  html, body {
+    font-family: Manrope !important;
+  }
+  
+  body {
+    background-image: linear-gradient(to bottom right, var(--black), var(--black-2));
+  }
+
+* {
+    box-sizing: border-box;
+  }
+  
+  h1, h2, h3, p, a {
+    color: var(--black);
+    font-weight: 500;
+    font-family: Manrope !important;
+  }
+  
+  h1 {
+    font-size: var(--fontsize-lg);
+  }
+  
+  h2 {
+    font-size: var(--fontsize-md);
+  }
+  
+  h3 {
+    font-size: var(--fontsize-sm);
+  }
+  
+  p {
+    font-size: var(--fontsize-xs);
+  }
