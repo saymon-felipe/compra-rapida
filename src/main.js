@@ -7,7 +7,17 @@ import { IonicVue } from '@ionic/vue';
 import { addIcons } from 'ionicons';
 import * as allIcons from 'ionicons/icons';
 
-addIcons(allIcons);
+const iconMap = {};
+for (const key in allIcons) {
+  const kebab = key
+    .replace(/([a-z])([A-Z])/g, '$1-$2')
+    .replace(/Outline$/, '-outline')
+    .replace(/Sharp$/, '-sharp')
+    .toLowerCase();
+  iconMap[kebab] = allIcons[key];
+}
+
+addIcons(iconMap);
 
 /* Core CSS required for Ionic components to work properly */
 import '@ionic/vue/css/core.css';

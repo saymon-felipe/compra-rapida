@@ -6,14 +6,16 @@
   
   body {
     background-image: linear-gradient(to bottom right, var(--black), var(--black-2));
+    color: var(--white);
   }
 
 * {
     box-sizing: border-box;
+    color: var(--white);
   }
   
   h1, h2, h3, p, a {
-    color: var(--black);
+    color: var(--white);
     font-weight: 500;
     font-family: Manrope !important;
   }
