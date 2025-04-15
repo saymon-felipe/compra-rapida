@@ -1,6 +1,7 @@
 import { createRouter, createWebHistory } from '@ionic/vue-router';
 import homePage from '../views/homePage.vue';
 import addressPage from '../views/addressPage.vue';
+import addAddress from '../views/addAddress.vue';
 
 const routes = [
   {
@@ -16,6 +17,11 @@ const routes = [
     path: '/set-address',
     name: 'SetAddress',
     component: addressPage
+  },
+  {
+    path: '/add-address',
+    name: 'AddAddress',
+    component: addAddress
   }
 ]
 

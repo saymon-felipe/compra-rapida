@@ -41,10 +41,14 @@ import './theme/variables.css';
 /* Global CSS */
 import './css/global.css';
 
+import vCep from './directives/v-cep';
+
 const app = createApp(App)
   .use(IonicVue)
   .use(router);
 
+  app.directive('cep', vCep);
+  
 app.mixin({
   data() {
     return {
