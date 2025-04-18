@@ -43,19 +43,13 @@ import './css/global.css';
 
 import vCep from './directives/v-cep';
 
-const app = createApp(App)
-  .use(IonicVue)
-  .use(router);
+const app = createApp(App).use(IonicVue).use(router);
 
-  app.directive('cep', vCep);
-  
-app.mixin({
-  data() {
-    return {
-      
-    }
-  }
-})
+app.directive('cep', vCep);
+
+import formatterMixin from './mixins/formmatter';
+
+app.mixin(formatterMixin);
 
 router.isReady().then(() => {
   app.mount('#app');
