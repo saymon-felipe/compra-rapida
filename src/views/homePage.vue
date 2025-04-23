@@ -4,6 +4,7 @@
             <div class="page-content">
                 <addressSelector @changeAddress="handleChangeAddress()" :selectedAddress="selectedAddress" :addressList="addressList" />
                 <searchComponent v-model="searchString" placeholder="Buscar produto/categoria/loja" />
+                <filterComponent :filtered="filteredCategories" @order="filteredCategories = $event" />
                 <categoriesComponent :categories="filteredCategories" />
             </div>
         </ion-content>
@@ -15,6 +16,7 @@ import { defineComponent } from 'vue';
 import addressSelector from '../components/addressSelector.vue';
 import searchComponent from "../components/searchComponent.vue";
 import categoriesComponent from "../components/categoriesComponent.vue";
+import filterComponent from "../components/filterComponent.vue";
 
 export default defineComponent({
     components: {
@@ -22,7 +24,8 @@ export default defineComponent({
         IonPage,
         addressSelector,
         searchComponent,
-        categoriesComponent
+        categoriesComponent,
+        filterComponent
     },
     data() {
         return {
@@ -109,6 +112,34 @@ export default defineComponent({
                     id: 0,
                     name: "Lanches",
                     items: [
+                    {
+                            id: 1,
+                            name: "Choko Cake",
+                            description: "Bolo de chocolate com recheio de morango",
+                            price: 32.90,
+                            estimated_time: "45-55 min",
+                            delivery_tax: 17.90,
+                            distance: 6,
+                            image: "https://i.pinimg.com/originals/22/3d/a2/223da29f5521c837d67b90727765bf1b.jpg",
+                            store: {
+                                name: "Chest of Wonders",
+                                image: "https://chestmaids.carrd.co/assets/images/image01.png?v=7e41ed8a"
+                            }
+                        },
+                        {
+                            id: 1,
+                            name: "Choko Cake",
+                            description: "Bolo de chocolate com recheio de morango",
+                            price: 32.90,
+                            estimated_time: "45-55 min",
+                            delivery_tax: 17.90,
+                            distance: 6,
+                            image: "https://i.pinimg.com/originals/22/3d/a2/223da29f5521c837d67b90727765bf1b.jpg",
+                            store: {
+                                name: "Chest of Wonders",
+                                image: "https://chestmaids.carrd.co/assets/images/image01.png?v=7e41ed8a"
+                            }
+                        },
                         {
                             id: 0,
                             name: "Omurice",
@@ -117,6 +148,7 @@ export default defineComponent({
                             estimated_time: "45-55 min",
                             delivery_tax: 15.00,
                             image: "https://i.ytimg.com/vi/FCmfXqVJc6Q/maxresdefault.jpg",
+                            distance: 5,
                             store: {
                                 name: "Nyan Maid Café",
                                 image: "https://mms.img.susercontent.com/28b49029af37bae3af357b051dac6d97_tn"
@@ -129,32 +161,7 @@ export default defineComponent({
                             price: 32.90,
                             estimated_time: "45-55 min",
                             delivery_tax: 17.90,
-                            image: "https://i.pinimg.com/originals/22/3d/a2/223da29f5521c837d67b90727765bf1b.jpg",
-                            store: {
-                                name: "Chest of Wonders",
-                                image: "https://chestmaids.carrd.co/assets/images/image01.png?v=7e41ed8a"
-                            }
-                        },
-                        {
-                            id: 1,
-                            name: "Choko Cake",
-                            description: "Bolo de chocolate com recheio de morango",
-                            price: 32.90,
-                            estimated_time: "45-55 min",
-                            delivery_tax: 17.90,
-                            image: "https://i.pinimg.com/originals/22/3d/a2/223da29f5521c837d67b90727765bf1b.jpg",
-                            store: {
-                                name: "Chest of Wonders",
-                                image: "https://chestmaids.carrd.co/assets/images/image01.png?v=7e41ed8a"
-                            }
-                        },
-                        {
-                            id: 1,
-                            name: "Choko Cake",
-                            description: "Bolo de chocolate com recheio de morango",
-                            price: 32.90,
-                            estimated_time: "45-55 min",
-                            delivery_tax: 17.90,
+                            distance: 5,
                             image: "https://i.pinimg.com/originals/22/3d/a2/223da29f5521c837d67b90727765bf1b.jpg",
                             store: {
                                 name: "Chest of Wonders",
@@ -174,6 +181,7 @@ export default defineComponent({
                             price: 11.50,
                             estimated_time: "15-35 min",
                             delivery_tax: 0,
+                            distance: 1,
                             image: "https://avenidab2c.vtexassets.com/arquivos/ids/349944/Pizza-Congelada-Napolitana-PERDIGAO-460g.png?v=638624752101500000",
                             store: {
                                 name: "Condor",
@@ -187,6 +195,7 @@ export default defineComponent({
                             price: 25.90,
                             estimated_time: "15-35 min",
                             delivery_tax: 0,
+                            distance: 1,
                             image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQVdmSkBosFYD5uF3FL28l9kPgwO_kpKwPUxA&s",
                             store: {
                                 name: "Condor",
@@ -206,6 +215,7 @@ export default defineComponent({
                             price: 11.50,
                             estimated_time: "15-35 min",
                             delivery_tax: 0,
+                            distance: 1,
                             image: "https://avenidab2c.vtexassets.com/arquivos/ids/349944/Pizza-Congelada-Napolitana-PERDIGAO-460g.png?v=638624752101500000",
                             store: {
                                 name: "Condor",
@@ -219,6 +229,7 @@ export default defineComponent({
                             price: 25.90,
                             estimated_time: "15-35 min",
                             delivery_tax: 0,
+                            distance: 1,
                             image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQVdmSkBosFYD5uF3FL28l9kPgwO_kpKwPUxA&s",
                             store: {
                                 name: "Condor",

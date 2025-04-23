@@ -33,7 +33,7 @@
   
   <style scoped>
   .input-search {
-    margin-bottom: var(--space-10);
+    margin-bottom: var(--space-5);
     position: relative;
   
     & ion-icon {
