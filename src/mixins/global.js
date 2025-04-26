@@ -18,6 +18,11 @@ export default {
                 style: 'currency',
                 currency: 'BRL'
             });
+        },
+        scrollToInput: function (event) {
+            setTimeout(() => {
+                event.target.scrollIntoView({ behavior: "smooth", block: 'center' });
+            }, 100)
         }
     }
 };
