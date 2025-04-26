@@ -2,6 +2,7 @@ import { createRouter, createWebHistory } from '@ionic/vue-router';
 import homePage from '../views/homePage.vue';
 import addressPage from '../views/addressPage.vue';
 import addAddress from '../views/addAddress.vue';
+import productDetails from '../views/productDetails.vue';
 
 const routes = [
   {
@@ -22,6 +23,11 @@ const routes = [
     path: '/add-address',
     name: 'AddAddress',
     component: addAddress
+  },
+  {
+    path: '/product-details/:product',
+    name: 'ProductDetails',
+    component: productDetails
   }
 ]
 

@@ -3,7 +3,7 @@
     <div class="category" v-for="(category, index) in categories" :key="index">
       <h3 class="bold">{{ category.name }}</h3>
       <div class="items-container">
-        <div class="item" v-for="(item, index2) in category.items" :key="index2">
+        <div class="item" v-for="(item, index2) in category.items" :key="index2" v-on:click="goToProductDetails(item)">
           <div class="item-image-container">
             <img :src="item.store.image" class="store-image" />
             <img :src="item.image" class="item-image" />
@@ -35,17 +35,14 @@ export default {
     categories: Array
   },
   methods: {
-    chooseItemDeliveryTaxClass(delivery_tax) {
-      if (delivery_tax === 0) {
-        return 'green';
-      }
-      return '';
-    },
-    chooseItemDeliveryTax(delivery_tax) {
-      if (delivery_tax === 0) {
-        return 'Grátis';
-      } else {
-        return this.formmatCurrency(delivery_tax);
+    goToProductDetails: function (product) {
+      if (product) {
+        this.$router.push({
+          name: 'ProductDetails',
+          params: {
+            product: JSON.stringify(product)
+          }
+        });
       }
     }
   }

@@ -48,8 +48,10 @@ const app = createApp(App).use(IonicVue).use(router);
 app.directive('cep', vCep);
 
 import formatterMixin from './mixins/formmatter';
+import globalMixin from './mixins/global';
 
 app.mixin(formatterMixin);
+app.mixin(globalMixin);
 
 router.isReady().then(() => {
   app.mount('#app');

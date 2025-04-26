@@ -57,9 +57,13 @@
   font-weight: bold;
 }
 
+.page-content:has(.return-component) {
+  padding-top: 80px;
+}
+
 textarea {
-    resize: vertical;
-    min-height: 40px;
+    resize: none;
+    min-height: 120px;
 }
 
 input[type="radio"], input[type="checkbox"] {
@@ -86,6 +90,10 @@ input:invalid {
 
   &:disabled {
       cursor: default !important;
+  }
+
+  &.space-between {
+    justify-content: space-between !important;
   }
 }
 

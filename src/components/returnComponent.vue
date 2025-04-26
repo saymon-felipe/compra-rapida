@@ -1,5 +1,5 @@
 <template>
-    <header>
+    <header class="return-component">
         <ion-icon name="chevron-back" v-on:click="goBack()"></ion-icon>
         <h2>{{ title }}</h2>
     </header>
@@ -33,7 +33,12 @@ header {
     display: flex;
     align-items: center;
     gap: var(--space-6);
-    margin-bottom: var(--space-10);
+    padding: var(--space-5) var(--space-3);
+    background: var(--ion-background-color);
+    width: 100vw;
+    position: fixed;
+    top: 0;
+    left: 0;
 
     & ion-icon {
         font-size: var(--fontsize-lg);

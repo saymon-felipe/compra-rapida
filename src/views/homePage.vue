@@ -282,7 +282,6 @@ export default defineComponent({
     mounted: function () {
         this.returnAddresses();
         this.returnCategories();
-        console.log(this.categories)
     }
 })
 </script>
