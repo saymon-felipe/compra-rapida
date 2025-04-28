@@ -3,6 +3,7 @@ import homePage from '../views/homePage.vue';
 import addressPage from '../views/addressPage.vue';
 import addAddress from '../views/addAddress.vue';
 import productDetails from '../views/productDetails.vue';
+import myCart from '../views/myCart.vue';
 
 const routes = [
   {
@@ -28,6 +29,11 @@ const routes = [
     path: '/product-details/:product',
     name: 'ProductDetails',
     component: productDetails
+  },
+  {
+    path: '/cart',
+    name: 'Cart',
+    component: myCart
   }
 ]
 

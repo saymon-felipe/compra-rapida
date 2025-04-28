@@ -27,7 +27,7 @@
                     </div>
                     <div class="product-action">
                         <quantitySelectorComponent :currentQuantity="quantity" @updateQuantity="quantity = $event" />
-                        <button class="btn btn-primary space-between" style="width: 200px;">
+                        <button class="btn btn-primary space-between" style="width: 200px;" v-on:click="goToCart()">
                             <span>Adicionar</span>
                             <span>{{ formatarParaReal(product?.price * quantity) }}</span>
                         </button>
@@ -59,6 +59,39 @@ export default defineComponent({
     watch: {
     },
     methods: {
+        addToCart: function (produto, quantity) {
+            let cart = JSON.parse(localStorage.getItem('cart')) || [];
+
+            let carrinhoUsuario = cart.find(c => c.id_usuario === this.$id_usuario);
+
+            if (!carrinhoUsuario) {
+                carrinhoUsuario = {
+                    id_usuario: this.$id_usuario,
+                    produtos: []
+                };
+                cart.push(carrinhoUsuario);
+            }
+
+            let produtoExistente = carrinhoUsuario.produtos.find(p => p.id === produto.id);
+
+            if (produtoExistente) {
+                produtoExistente.quantity += quantity;
+            } else {
+                carrinhoUsuario.produtos.push({
+                    id: produto.id,
+                    name: produto.name,
+                    price: produto.price,
+                    quantity: quantity
+                });
+            }
+
+            localStorage.setItem('cart', JSON.stringify(cart));
+        },
+        goToCart: function () {
+            this.addToCart(this.product, this.quantity);
+
+            this.$router.push("/cart");
+        }
     },
     mounted: function () {
     }

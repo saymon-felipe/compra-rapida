@@ -53,6 +53,8 @@ import globalMixin from './mixins/global';
 app.mixin(formatterMixin);
 app.mixin(globalMixin);
 
+app.config.globalProperties.$id_usuario = 1;
+
 router.isReady().then(() => {
   app.mount('#app');
 });
