@@ -76,6 +76,9 @@ export default defineComponent({
                 this.filteredCategories = this.categories;
             }
 
+        },
+        cart(newVal, oldVal) {
+            console.log('Carrinho atualizado:', newVal);
         }
     },
     methods: {
@@ -122,6 +125,7 @@ export default defineComponent({
                             distance: 6,
                             image: "https://i.pinimg.com/originals/22/3d/a2/223da29f5521c837d67b90727765bf1b.jpg",
                             store: {
+                                id: 2,
                                 name: "Chest of Wonders",
                                 image: "https://chestmaids.carrd.co/assets/images/image01.png?v=7e41ed8a"
                             }
@@ -136,6 +140,7 @@ export default defineComponent({
                             distance: 6,
                             image: "https://i.pinimg.com/originals/22/3d/a2/223da29f5521c837d67b90727765bf1b.jpg",
                             store: {
+                                id: 2,
                                 name: "Chest of Wonders",
                                 image: "https://chestmaids.carrd.co/assets/images/image01.png?v=7e41ed8a"
                             }
@@ -150,6 +155,7 @@ export default defineComponent({
                             image: "https://i.ytimg.com/vi/FCmfXqVJc6Q/maxresdefault.jpg",
                             distance: 5,
                             store: {
+                                id: 1,
                                 name: "Nyan Maid Café",
                                 image: "https://mms.img.susercontent.com/28b49029af37bae3af357b051dac6d97_tn"
                             }
@@ -164,6 +170,7 @@ export default defineComponent({
                             distance: 5,
                             image: "https://i.pinimg.com/originals/22/3d/a2/223da29f5521c837d67b90727765bf1b.jpg",
                             store: {
+                                id: 2,
                                 name: "Chest of Wonders",
                                 image: "https://chestmaids.carrd.co/assets/images/image01.png?v=7e41ed8a"
                             }
@@ -184,6 +191,7 @@ export default defineComponent({
                             distance: 1,
                             image: "https://avenidab2c.vtexassets.com/arquivos/ids/349944/Pizza-Congelada-Napolitana-PERDIGAO-460g.png?v=638624752101500000",
                             store: {
+                                id: 3,
                                 name: "Condor",
                                 image: "https://media.licdn.com/dms/image/v2/C4E0BAQEOPqP2OYrElw/company-logo_200_200/company-logo_200_200/0/1630628066378/condor_super_center_ltda_logo?e=2147483647&v=beta&t=5neUSB6P3EHWHEanBOmqqTvRcNVlvv3S7Z1IUnIdLBM"
                             }
@@ -198,6 +206,7 @@ export default defineComponent({
                             distance: 1,
                             image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQVdmSkBosFYD5uF3FL28l9kPgwO_kpKwPUxA&s",
                             store: {
+                                id: 3,
                                 name: "Condor",
                                 image: "https://media.licdn.com/dms/image/v2/C4E0BAQEOPqP2OYrElw/company-logo_200_200/company-logo_200_200/0/1630628066378/condor_super_center_ltda_logo?e=2147483647&v=beta&t=5neUSB6P3EHWHEanBOmqqTvRcNVlvv3S7Z1IUnIdLBM"
                             }
@@ -218,6 +227,7 @@ export default defineComponent({
                             distance: 1,
                             image: "https://avenidab2c.vtexassets.com/arquivos/ids/349944/Pizza-Congelada-Napolitana-PERDIGAO-460g.png?v=638624752101500000",
                             store: {
+                                id: 3,
                                 name: "Condor",
                                 image: "https://media.licdn.com/dms/image/v2/C4E0BAQEOPqP2OYrElw/company-logo_200_200/company-logo_200_200/0/1630628066378/condor_super_center_ltda_logo?e=2147483647&v=beta&t=5neUSB6P3EHWHEanBOmqqTvRcNVlvv3S7Z1IUnIdLBM"
                             }
@@ -232,6 +242,7 @@ export default defineComponent({
                             distance: 1,
                             image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQVdmSkBosFYD5uF3FL28l9kPgwO_kpKwPUxA&s",
                             store: {
+                                id: 3,
                                 name: "Condor",
                                 image: "https://media.licdn.com/dms/image/v2/C4E0BAQEOPqP2OYrElw/company-logo_200_200/company-logo_200_200/0/1630628066378/condor_super_center_ltda_logo?e=2147483647&v=beta&t=5neUSB6P3EHWHEanBOmqqTvRcNVlvv3S7Z1IUnIdLBM"
                             }
@@ -251,6 +262,7 @@ export default defineComponent({
                             delivery_tax: 0,
                             image: "https://avenidab2c.vtexassets.com/arquivos/ids/349944/Pizza-Congelada-Napolitana-PERDIGAO-460g.png?v=638624752101500000",
                             store: {
+                                id: 3,
                                 name: "Condor",
                                 image: "https://media.licdn.com/dms/image/v2/C4E0BAQEOPqP2OYrElw/company-logo_200_200/company-logo_200_200/0/1630628066378/condor_super_center_ltda_logo?e=2147483647&v=beta&t=5neUSB6P3EHWHEanBOmqqTvRcNVlvv3S7Z1IUnIdLBM"
                             }
@@ -264,6 +276,7 @@ export default defineComponent({
                             delivery_tax: 0,
                             image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQVdmSkBosFYD5uF3FL28l9kPgwO_kpKwPUxA&s",
                             store: {
+                                id: 3,
                                 name: "Condor",
                                 image: "https://media.licdn.com/dms/image/v2/C4E0BAQEOPqP2OYrElw/company-logo_200_200/company-logo_200_200/0/1630628066378/condor_super_center_ltda_logo?e=2147483647&v=beta&t=5neUSB6P3EHWHEanBOmqqTvRcNVlvv3S7Z1IUnIdLBM"
                             }
@@ -282,6 +295,12 @@ export default defineComponent({
     mounted: function () {
         this.returnAddresses();
         this.returnCategories();
+    },
+    created() {
+        window.addEventListener('storage', this.handleStorageChange);
+    },
+    destroyed() {
+        window.removeEventListener('storage', this.handleStorageChange);
     }
 })
 </script>

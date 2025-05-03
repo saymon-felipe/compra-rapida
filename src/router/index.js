@@ -4,6 +4,7 @@ import addressPage from '../views/addressPage.vue';
 import addAddress from '../views/addAddress.vue';
 import productDetails from '../views/productDetails.vue';
 import myCart from '../views/myCart.vue';
+import selectAddress from '../views/selectAddress.vue';
 
 const routes = [
   {
@@ -34,6 +35,11 @@ const routes = [
     path: '/cart',
     name: 'Cart',
     component: myCart
+  },
+  {
+    path: '/select-address',
+    name: 'SelectAddress',
+    component: selectAddress
   }
 ]
 

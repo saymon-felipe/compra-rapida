@@ -9,8 +9,8 @@
 import { defineComponent } from 'vue';
 
 export default defineComponent({
-    props: ["currentQuantity"],
-    emits: ["updateQuantity"],
+    props: ["currentQuantity", "allowZeroQuantity"],
+    emits: ["updateQuantity", "exclude"],
     data() {
         return {
             quantity: JSON.parse(JSON.stringify(this.currentQuantity))
@@ -18,6 +18,11 @@ export default defineComponent({
     },
     methods: {
         sub: function () {
+            if (!this.allowZeroQuantity && this.quantity <= 1) return;
+            if (this.allowZeroQuantity && this.quantity == 1) {
+                this.$emit("exclude");
+            }
+
             if (this.quantity <= 1) return;
 
             if (this.quantity > 1) {

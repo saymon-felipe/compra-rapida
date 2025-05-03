@@ -6,7 +6,7 @@
                 <div class="product-container">
                     <img :src="product?.image">
                     <div class="store-details">
-                        <img :src="product?.store?.image">
+                        <img :src="product?.store?.image" class="avatar">
                         <div class="store-informations">
                             <h3>{{ product?.store?.name }}</h3>
                             <h3>{{ product?.estimated_time }}&nbsp;&nbsp;&nbsp;&nbsp;<span :class="chooseItemDeliveryTaxClass(product?.delivery_tax)">{{ chooseItemDeliveryTax(product?.delivery_tax) }}</span></h3>
@@ -42,6 +42,7 @@ import { IonContent, IonPage } from '@ionic/vue';
 import { defineComponent } from 'vue';
 import returnComponent from "../components/returnComponent.vue";
 import quantitySelectorComponent from "../components/quantitySelectorComponent.vue";
+import { alertController } from '@ionic/vue';
 
 export default defineComponent({
     components: {
@@ -59,38 +60,41 @@ export default defineComponent({
     watch: {
     },
     methods: {
-        addToCart: function (produto, quantity) {
-            let cart = JSON.parse(localStorage.getItem('cart')) || [];
+        goToCart: async function () {
+            const isAdded = this.addToCart(this.product, this.quantity);
 
-            let carrinhoUsuario = cart.find(c => c.id_usuario === this.$id_usuario);
-
-            if (!carrinhoUsuario) {
-                carrinhoUsuario = {
-                    id_usuario: this.$id_usuario,
-                    produtos: []
-                };
-                cart.push(carrinhoUsuario);
-            }
-
-            let produtoExistente = carrinhoUsuario.produtos.find(p => p.id === produto.id);
-
-            if (produtoExistente) {
-                produtoExistente.quantity += quantity;
-            } else {
-                carrinhoUsuario.produtos.push({
-                    id: produto.id,
-                    name: produto.name,
-                    price: produto.price,
-                    quantity: quantity
+            if (!isAdded) {
+                const alert = await alertController.create({
+                    header: 'Ops... Loja diferente',
+                    message: 'Você tentou adicionar um produto de uma loja diferente, limpe seu carrinho primeiro.',
+                    buttons: [
+                        {
+                            text: 'Limpar',
+                            handler: () => {
+                                this.clearCart();
+                                return 'limpar';
+                            }
+                        },
+                        {
+                            text: 'Cancelar',
+                            handler: () => {
+                                return 'cancelar';
+                            }
+                        }
+                    ]
                 });
+
+                await alert.present();
+                const result = await alert.onWillDismiss();
+                
+                if (result.data === 'limpar') {
+                    this.clearCart();
+                }
+
+                this.$router.push("/cart");
+            } else {
+                this.$router.push("/cart");
             }
-
-            localStorage.setItem('cart', JSON.stringify(cart));
-        },
-        goToCart: function () {
-            this.addToCart(this.product, this.quantity);
-
-            this.$router.push("/cart");
         }
     },
     mounted: function () {
@@ -111,31 +115,8 @@ export default defineComponent({
     }
 }
 
-.store-details {
-    display: flex;
-    gap: var(--space-4);
-
-    & img {
-        width: 40px;
-        height: 40px;
-        border-radius: var(--radius-full);
-        border: 1px solid var(--white);
-    }
-}
-
 .store-informations, .product-details, .product-observations {
     display: grid;
     gap: var(--space-3);
-}
-
-.product-action {
-    display: flex;
-    justify-content: space-between;
-    position: fixed;
-    left: 0;
-    bottom: 72px;
-    padding: var(--space-6);
-    width: 100vw;
-    background: var(--ion-background-color);
 }
 </style>

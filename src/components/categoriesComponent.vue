@@ -35,16 +35,6 @@ export default {
     categories: Array
   },
   methods: {
-    goToProductDetails: function (product) {
-      if (product) {
-        this.$router.push({
-          name: 'ProductDetails',
-          params: {
-            product: JSON.stringify(product)
-          }
-        });
-      }
-    }
   }
 };
 </script>

@@ -53,12 +53,27 @@
     line-height: 170%;
 }
 
+.orange {
+  color: var(--orange) !important;
+}
+
 .bold {
   font-weight: bold;
 }
 
 .page-content:has(.return-component) {
   padding-top: 80px;
+}
+
+.product-action {
+  display: flex;
+  justify-content: space-between;
+  position: fixed;
+  left: 0;
+  bottom: 72px;
+  padding: var(--space-6);
+  width: 100vw;
+  background: var(--ion-background-color);
 }
 
 textarea {
@@ -140,6 +155,19 @@ input:invalid {
   100% {
       transform: rotate(360deg);
   }
+}
+
+.avatar {
+  width: 40px;
+  height: 40px;
+  border-radius: var(--radius-full);
+  border: 1px solid var(--white);
+}
+
+.store-details {
+  display: flex;
+  gap: var(--space-4);
+  align-items: center;
 }
 
 .form-group {

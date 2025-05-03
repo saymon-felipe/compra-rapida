@@ -1,9 +1,8 @@
-import { createApp } from 'vue'
+import { createApp, reactive } from 'vue'
 import App from './App.vue'
 import router from './router';
 
 import { IonicVue } from '@ionic/vue';
-
 import { addIcons } from 'ionicons';
 import * as allIcons from 'ionicons/icons';
 
@@ -19,26 +18,22 @@ for (const key in allIcons) {
 
 addIcons(iconMap);
 
-/* Core CSS required for Ionic components to work properly */
+// Core CSS required for Ionic components to work properly
 import '@ionic/vue/css/core.css';
-
-/* Basic CSS for apps built with Ionic */
+// Basic CSS for apps built with Ionic
 import '@ionic/vue/css/normalize.css';
 import '@ionic/vue/css/structure.css';
 import '@ionic/vue/css/typography.css';
-
-/* Optional CSS utils that can be commented out */
+// Optional CSS utils that can be commented out
 import '@ionic/vue/css/padding.css';
 import '@ionic/vue/css/float-elements.css';
 import '@ionic/vue/css/text-alignment.css';
 import '@ionic/vue/css/text-transformation.css';
 import '@ionic/vue/css/flex-utils.css';
 import '@ionic/vue/css/display.css';
-
-/* Theme variables */
+// Theme variables
 import './theme/variables.css';
-
-/* Global CSS */
+// Global CSS
 import './css/global.css';
 
 import vCep from './directives/v-cep';
@@ -55,6 +50,33 @@ app.mixin(globalMixin);
 
 app.config.globalProperties.$id_usuario = 1;
 
+app.config.globalProperties.$getCart = function() {
+  let cart = JSON.parse(localStorage.getItem('cart')) || [];
+
+  let carrinhoUsuario = cart.find(c => c.id_usuario === this.$id_usuario);
+
+  return carrinhoUsuario ? carrinhoUsuario.produtos : [];
+}
+
+app.config.globalProperties.$localStorage = reactive({ cart: app.config.globalProperties.$getCart() });
+
+app.config.globalProperties.$watchLocalStorage = function () {
+  const storedCart = JSON.parse(localStorage.getItem('cart')) || [];
+
+  setInterval(() => {
+    const currentCart = JSON.parse(localStorage.getItem('cart')) || [];
+
+    if (JSON.stringify(currentCart) !== JSON.stringify(storedCart)) {
+      localStorage.setItem("cart", JSON.stringify(currentCart));
+
+      app.config.globalProperties.$localStorage.cart = app.config.globalProperties.$getCart();
+    }
+  }, 100); 
+};
+
+app.config.globalProperties.$watchLocalStorage();
+
 router.isReady().then(() => {
   app.mount('#app');
+  app.config.globalProperties.$watchLocalStorage();
 });
