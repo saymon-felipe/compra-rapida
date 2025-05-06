@@ -5,6 +5,9 @@ import addAddress from '../views/addAddress.vue';
 import productDetails from '../views/productDetails.vue';
 import myCart from '../views/myCart.vue';
 import selectAddress from '../views/selectAddress.vue';
+import paymentDetails from '../views/paymentDetails.vue';
+import followOrder from '../views/followOrder.vue';
+import ordersPage from '../views/ordersPage.vue';
 
 const routes = [
   {
@@ -40,6 +43,21 @@ const routes = [
     path: '/select-address',
     name: 'SelectAddress',
     component: selectAddress
+  },  
+  {
+    path: '/payment-details',
+    name: 'PaymentDetails',
+    component: paymentDetails
+  },  
+  {
+    path: '/follow-order',
+    name: 'FollowOrder',
+    component: followOrder
+  },  
+  {
+    path: '/orders',
+    name: 'Orders',
+    component: ordersPage
   }
 ]
 

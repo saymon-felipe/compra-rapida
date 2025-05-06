@@ -16,6 +16,8 @@ export default {
             }
         },
         formatarParaReal(valor) {
+            valor = parseFloat(valor);
+            
             return valor.toLocaleString('pt-BR', {
                 style: 'currency',
                 currency: 'BRL'

@@ -2,19 +2,12 @@
     <ion-page>
         <ion-content class="ion-padding">
             <div class="page-content">
-                <returnComponent title="Carrinho" return="/home" />
-                <div class="cart-header">
-                    <h3>Itens adicionados</h3>
-                    <h3 class="orange bold" v-on:click="clearCart()" v-if="$localStorage.cart.length">Limpar</h3>
-                </div>
+                <returnComponent title="Pagamento" return="/cart" />
                 <div class="store-details" v-if="$localStorage.cart.length">
                     <img :src="$localStorage.cart[0].store.image" class="avatar">
                     <div class="store-informations">
                         <h3>{{ $localStorage.cart[0].store.name }}</h3>
                     </div>
-                </div>
-                <div class="empty" v-else>
-                    <p>Nenhum produto adicionado</p>
                 </div>
                 <div class="cart-products">
                     <div class="cart-product" v-for="(product, index) in $localStorage.cart" :key="index">
@@ -24,10 +17,18 @@
                             <p>{{ product.description }}</p>
                             <h3 class="bold">{{ formatarParaReal(product.price) }}</h3>
                         </div>
-                        <quantitySelectorComponent :currentQuantity="product.quantity" :allowZeroQuantity="true" @exclude="removeFromCart(product.id)" @updateQuantity="product.quantity = $event; saveCart()" />
                     </div>
                 </div>
-                <storeCheckStand :store="$localStorage.cart[0]?.store.id" />
+                <h3>Pagamento pelo app</h3>
+                <div class="payment-methods">
+                    <div class="payment-method" v-for="(method, index) in paymentMethods" :key="index">
+                        <div class="method-informations">
+                            <img :src="method.image">
+                            <h3>{{ method.name }}</h3>
+                        </div>
+                        <ion-icon name="sync" class="change-method" v-if="false" v-on:click="handleChangeAddressBeforeContinue"></ion-icon>
+                    </div>
+                </div>
                 <div class="cart-summary">
                     <h3>Resumo</h3>
                     <div class="summary-item">
@@ -40,13 +41,12 @@
                     </div>
                     <div class="summary-item">
                         <h3>Total</h3>
-                        <h3 class="bold">{{ formatarParaReal((cartItemsSum() + $localStorage.cart[0]?.delivery_tax) || 0) }}</h3>
+                        <h3 class="bold">{{ formatarParaReal(cartItemsSum() + $localStorage.cart[0]?.delivery_tax) }}</h3>
                     </div>
                 </div>
                 <div class="product-action">
-                    <button class="btn btn-primary space-between" style="width: 100%;" v-on:click="goToSelectAddress()">
-                        <span>Continuar</span>
-                        <span>{{ formatarParaReal((cartItemsSum() + $localStorage.cart[0]?.delivery_tax) || 0) }}</span>
+                    <button class="btn btn-primary" style="width: 100%;" v-on:click="confirmOrder()">
+                        <span>Confirmar pedido</span>
                     </button>
                 </div>
             </div>
@@ -57,19 +57,23 @@
 import { IonContent, IonPage } from '@ionic/vue';
 import { defineComponent } from 'vue';
 import returnComponent from "../components/returnComponent.vue";
-import quantitySelectorComponent from "../components/quantitySelectorComponent.vue";
-import storeCheckStand from "../components/storeCheckStand.vue";
+import pixImage from "../assets/img/pix.png";
 
 export default defineComponent({
     components: {
         IonContent,
         IonPage,
-        returnComponent,
-        quantitySelectorComponent,
-        storeCheckStand
+        returnComponent
     },
     data() {
         return {
+            paymentMethods: [
+                {
+                    id: 1,
+                    image: pixImage,
+                    name: "Pix"
+                }
+            ]
         }
     },
     methods: {
@@ -84,10 +88,10 @@ export default defineComponent({
 
             return sum;
         },
-        goToSelectAddress: function () {
-            let cartValue = (this.cartItemsSum() + this.$localStorage.cart[0]?.delivery_tax);
-
-            this.$router.push("/select-address?value=" + encodeURIComponent(cartValue));
+        confirmOrder: function () {
+            let idPedidoCriado = 15879;
+            this.$router.push("/follow-order?id=" + idPedidoCriado);
+            this.clearCart();
         }
     },
     mounted: function () {
@@ -95,19 +99,6 @@ export default defineComponent({
 })
 </script>
 <style scoped>
-.empty {
-    width: 100%;
-    margin-top: var(--space-6);
-    text-align: center;
-}
-
-.cart-header {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    margin-bottom: var(--space-4);
-}
-
 .cart-products {
     display: grid;
     gap: var(--space-6);
@@ -127,11 +118,6 @@ export default defineComponent({
         border-radius: var(--radius-md);
         flex-shrink: 0;
     }
-
-    & .quantity-component {
-        flex-shrink: 0;
-        width: fit-content; 
-    }
 }
 
 .product-informations {
@@ -147,6 +133,35 @@ export default defineComponent({
     }
 }
 
+.payment-methods {
+    display: grid;
+    gap: var(--space-3);
+    margin: var(--space-4) 0;
+}
+
+.payment-method {
+    display: flex;
+    align-items: center;
+
+    & .method-informations {
+        flex: 1;
+        display: flex;
+        align-items: center;
+        gap: var(--space-3);
+    }
+
+    & img {
+        width: 20px;
+        height: 20px;
+    }
+
+    & ion-icon {
+        font-size: 2rem;
+        cursor: pointer;
+        color: var(--orange);
+    }
+}
+
 .cart-summary {
     display: grid;
     gap: var(--space-6);
@@ -158,5 +173,4 @@ export default defineComponent({
         justify-content: space-between;
     }
 }
-
 </style>

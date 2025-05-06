@@ -76,9 +76,6 @@ export default defineComponent({
                 this.filteredCategories = this.categories;
             }
 
-        },
-        cart(newVal, oldVal) {
-            console.log('Carrinho atualizado:', newVal);
         }
     },
     methods: {

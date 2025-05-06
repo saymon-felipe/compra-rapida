@@ -5,12 +5,8 @@
                 <returnComponent title="Endereço de entrega" return="/home" />
                 <searchComponent v-model="searchString" placeholder="Procurar endereço" />
                 <div class="address-selector-container">
-                    <div class="address-selector-item" v-for="(address, index) in filteredAddressList" :key="index" :class="{ 'selected': selectedAddress.id === address.id }" @click="selectedAddress = address">
-                        <div class="address-informations">
-                            <div class="address-name">{{ address.name }}</div>
-                            <div class="address-item">{{ address.address }}, {{ address.number }} {{ address.neighborhood != "" ? "- " + address.neighborhood : "" }}, {{ address.city }} - {{ address.state }}</div>
-                            <div class="address-complement">{{ address.complement }}</div>
-                        </div>
+                    <div class="address-selector-item" v-for="(address, index) in filteredAddressList" :key="index" :class="{ 'selected': selectedAddress.id === address.id }" v-on:click="selectedAddress = address">
+                        <addressItemComponent :address="address" />
                         <div class="address-actions">
                             <ion-icon name="pencil"></ion-icon>
                             <ion-icon name="trash"></ion-icon>
@@ -30,13 +26,15 @@ import { IonContent, IonPage } from '@ionic/vue';
 import { defineComponent } from 'vue';
 import returnComponent from "../components/returnComponent.vue";
 import searchComponent from "../components/searchComponent.vue";
+import addressItemComponent from "../components/addressItemComponent.vue";
 
 export default defineComponent({
     components: {
         IonContent,
         IonPage,
         returnComponent,
-        searchComponent
+        searchComponent,
+        addressItemComponent
     },
     watch: {
         searchString: function () {
@@ -46,6 +44,14 @@ export default defineComponent({
                 });
             } else {
                 this.filteredAddressList = this.addressList;
+            }
+        },
+        selectedAddress: function () {
+            let url = new URLSearchParams(window.location.search);
+            let redirect = url.get("redirect");
+
+            if (redirect == "cart") {
+                this.$router.push("/select-address");
             }
         }
     },
@@ -138,14 +144,5 @@ export default defineComponent({
                 color: var(--orange);
             }
         }
-    }
-
-    .address-name {
-        margin-bottom: var(--space-6);
-        font-weight: bold;
-    }
-
-    .address-item {
-        margin-bottom: var(--space-3);
     }
 </style>

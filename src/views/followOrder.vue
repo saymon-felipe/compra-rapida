@@ -2,18 +2,16 @@
     <ion-page>
         <ion-content class="ion-padding">
             <div class="page-content">
-                <returnComponent title="Entrega" return="/cart" />
-                <h3>Entregar no endereço</h3>
+                <returnComponent :title="'Pedido #' + id" return="/orders" />
+                <div class="follow-progress">
+                    <h3>{{ order.status }}</h3>
+                    <div class="progress-container">
+                        <div class="progress-bar" :style="'width: ' + order.progress + '%;'"></div>
+                    </div>
+                </div>
                 <div class="address">
                     <ion-icon name="locate"></ion-icon>
                     <addressItemComponent :address="address" />
-                    <ion-icon name="sync" class="change-address" v-on:click="handleChangeAddressBeforeContinue"></ion-icon>
-                </div>
-                <div class="product-action">
-                    <button class="btn btn-primary space-between" style="width: 100%;" v-on:click="goToPaymentDetails()">
-                        <span>Continuar</span>
-                        <span>{{ formatarParaReal(value) }}</span>
-                    </button>
                 </div>
             </div>
         </ion-content>
@@ -34,14 +32,15 @@ export default defineComponent({
     },
     data() {
         return {
-            address: {},
-            value: 0
+            id: null,
+            order: {
+                status: "Preparando pedido",
+                progress: 1
+            },
+            address: {}
         }
     },
     methods: {
-        handleChangeAddressBeforeContinue: function () {
-            this.$router.push("/set-address?redirect=cart");
-        },
         fillSelectedAddress: function () {
             this.address = {
                 id: 1,
@@ -55,19 +54,27 @@ export default defineComponent({
                 number: 556
             }
         },
-        goToPaymentDetails: function () {
-            this.$router.push("/payment-details");
+        getOrder: function () {
+            setTimeout(() => {
+                this.order = {
+                    status: "Preparando pedido",
+                    progress: 20
+                }
+            }, 1000)
+
+            setTimeout(() => {
+                this.getOrder();
+            }, 10 * 1000)
         }
     },
     mounted: function () {
         let url = new URLSearchParams(window.location.search);
-        let value = url.get("value");
+        let id = url.get("id");
 
-        if (value) {
-            this.value = decodeURIComponent(value);
-        }
+        this.id = id;
 
         this.fillSelectedAddress();
+        this.getOrder();
     }
 })
 </script>
@@ -87,8 +94,23 @@ export default defineComponent({
     }
 }
 
-.change-address {
-    color: var(--orange);
-    cursor: pointer;
+.follow-progress {
+    display: grid;
+    gap: var(--space-5);
+}
+
+.progress-container {
+    width: 100%;
+    height: 10px;
+    border-radius: var(--radius-md);
+    background: var(--white);
+
+    & .progress-bar {
+        background: var(--green);
+        height: 100%;
+        width: 1px;
+        transition: width 0.4s ease-in-out;
+        border-radius: var(--radius-md);
+    }
 }
 </style>
