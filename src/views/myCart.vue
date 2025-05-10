@@ -44,7 +44,7 @@
                     </div>
                 </div>
                 <div class="product-action">
-                    <button class="btn btn-primary space-between" style="width: 100%;" v-on:click="goToSelectAddress()">
+                    <button class="btn btn-primary space-between" style="width: 100%;" v-on:click="goToSelectAddress()" :disabled="$localStorage.cart.length == 0">
                         <span>Continuar</span>
                         <span>{{ formatarParaReal((cartItemsSum() + $localStorage.cart[0]?.delivery_tax) || 0) }}</span>
                     </button>

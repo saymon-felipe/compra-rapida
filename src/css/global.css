@@ -104,7 +104,8 @@ input:invalid {
   min-width: 130px;
 
   &:disabled {
-      cursor: default !important;
+    cursor: default !important;
+    filter: brightness(0.7);
   }
 
   &.space-between {

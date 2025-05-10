@@ -61,17 +61,16 @@ app.config.globalProperties.$getCart = function() {
 app.config.globalProperties.$localStorage = reactive({ cart: app.config.globalProperties.$getCart() });
 
 app.config.globalProperties.$watchLocalStorage = function () {
-  const storedCart = JSON.parse(localStorage.getItem('cart')) || [];
+  let lastCart = JSON.stringify(JSON.parse(localStorage.getItem('cart')) || []);
 
   setInterval(() => {
-    const currentCart = JSON.parse(localStorage.getItem('cart')) || [];
+    const rawCart = JSON.stringify(JSON.parse(localStorage.getItem('cart')) || []);
 
-    if (JSON.stringify(currentCart) !== JSON.stringify(storedCart)) {
-      localStorage.setItem("cart", JSON.stringify(currentCart));
-
+    if (rawCart !== lastCart) {
+      lastCart = rawCart;
       app.config.globalProperties.$localStorage.cart = app.config.globalProperties.$getCart();
     }
-  }, 100); 
+  }, 200);
 };
 
 app.config.globalProperties.$watchLocalStorage();
