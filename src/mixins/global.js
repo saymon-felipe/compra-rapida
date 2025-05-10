@@ -61,16 +61,17 @@ export default {
             let index = cart.findIndex(c => c.id_usuario === this.$id_usuario);
 
             if (!cart[index]) {
-                carrinhoUsuario = {
+                let carrinhoUsuario = {
                     id_usuario: this.$id_usuario,
                     produtos: []
                 };
                 cart.push(carrinhoUsuario);
+                index = cart.findIndex(c => c.id_usuario === this.$id_usuario);
             }
+            
+            let indexProdutoExistente = cart[index].produtos.findIndex(p => p.id === produto.id) || null;
 
-            let indexProdutoExistente = cart[index].produtos.findIndex(p => p.id === produto.id);
-
-            if (cart[index].produtos[indexProdutoExistente]) {
+            if (indexProdutoExistente != -1) {
                 cart[index].produtos[indexProdutoExistente].quantity += quantity;
             } else {
                 for (let i = 0; i < cart[index].produtos.length; i++) {
@@ -132,7 +133,7 @@ export default {
             let index = cart.findIndex(c => c.id_usuario === this.$id_usuario);
 
             if (index == -1) {
-                carrinhoUsuario = {
+                let carrinhoUsuario = {
                     id_usuario: this.$id_usuario,
                     produtos: []
                 };
