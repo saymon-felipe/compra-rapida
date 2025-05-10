@@ -13,7 +13,7 @@
             v-on:click="goToCart" 
             :class="{ active: activeMenu === 'cart' }"
         >
-            <ion-icon name="cart"></ion-icon>
+            <IonIcon  name="cart"></IonIcon>
             <p class="text-sm-2">Carrinho</p>
         </div>
         <div 

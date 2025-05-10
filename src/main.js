@@ -6,6 +6,8 @@ import { IonicVue } from '@ionic/vue';
 import { addIcons } from 'ionicons';
 import * as allIcons from 'ionicons/icons';
 
+import { defineCustomElements } from 'ionicons/dist/loader';
+
 const iconMap = {};
 for (const key in allIcons) {
   const kebab = key
@@ -77,5 +79,6 @@ app.config.globalProperties.$watchLocalStorage();
 
 router.isReady().then(() => {
   app.mount('#app');
+  defineCustomElements(window);
   app.config.globalProperties.$watchLocalStorage();
 });
