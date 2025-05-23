@@ -104,7 +104,9 @@ export default defineComponent({
         }
     },
     mounted: function () {
-        this.fillAddresses();
+        this.verifyAuth().then(() => {
+            this.fillAddresses();
+        }).catch();
     }
 })
 </script>

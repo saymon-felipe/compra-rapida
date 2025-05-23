@@ -4,4 +4,5 @@
     <string name="title_activity_main">compra-rapida</string>
     <string name="package_name">com.rabsystems.comprarapida</string>
     <string name="custom_url_scheme">com.rabsystems.comprarapida</string>
+    <string name="server_client_id">670063294865-jc0num1k9cs0atgvpbd9rkl61t302hq9.apps.googleusercontent.com</string>
 </resources>

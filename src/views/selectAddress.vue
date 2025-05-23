@@ -60,14 +60,16 @@ export default defineComponent({
         }
     },
     mounted: function () {
-        let url = new URLSearchParams(window.location.search);
-        let value = url.get("value");
+        this.verifyAuth().then(() => {
+            let url = new URLSearchParams(window.location.search);
+            let value = url.get("value");
 
-        if (value) {
-            this.value = decodeURIComponent(value);
-        }
+            if (value) {
+                this.value = decodeURIComponent(value);
+            }
 
-        this.fillSelectedAddress();
+            this.fillSelectedAddress();
+        }).catch();
     }
 })
 </script>

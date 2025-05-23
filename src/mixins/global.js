@@ -51,22 +51,22 @@ export default {
         saveCart: function () {
             let localStorageCart = JSON.parse(localStorage.getItem('cart')) || [];
 
-            let index = localStorageCart.findIndex(c => c.id_usuario === this.$id_usuario);
+            let index = localStorageCart.findIndex(c => c.id_usuario === this.$usuario.id);
 
             localStorageCart[index].produtos = this.$localStorage.cart;
             localStorage.setItem('cart', JSON.stringify(localStorageCart));
         },
         addToCart: function (produto, quantity) {
             let cart = JSON.parse(localStorage.getItem('cart')) || [];
-            let index = cart.findIndex(c => c.id_usuario === this.$id_usuario);
+            let index = cart.findIndex(c => c.id_usuario === this.$usuario.id);
 
             if (!cart[index]) {
                 let carrinhoUsuario = {
-                    id_usuario: this.$id_usuario,
+                    id_usuario: this.$usuario.id,
                     produtos: []
                 };
                 cart.push(carrinhoUsuario);
-                index = cart.findIndex(c => c.id_usuario === this.$id_usuario);
+                index = cart.findIndex(c => c.id_usuario === this.$usuario.id);
             }
             
             let indexProdutoExistente = cart[index].produtos.findIndex(p => p.id === produto.id) || null;
@@ -114,7 +114,7 @@ export default {
             
             if (result.data === 'sim') {
                 let cart = JSON.parse(localStorage.getItem('cart')) || [];
-                let index = cart.findIndex(c => c.id_usuario === this.$id_usuario);
+                let index = cart.findIndex(c => c.id_usuario === this.$usuario.id);
             
                 if (index === -1) return;
             
@@ -130,11 +130,11 @@ export default {
         clearCart: function () {
             let cart = JSON.parse(localStorage.getItem('cart')) || [];
 
-            let index = cart.findIndex(c => c.id_usuario === this.$id_usuario);
+            let index = cart.findIndex(c => c.id_usuario === this.$usuario.id);
 
             if (index == -1) {
                 let carrinhoUsuario = {
-                    id_usuario: this.$id_usuario,
+                    id_usuario: this.$usuario.id,
                     produtos: []
                 };
                 cart.push(carrinhoUsuario);
@@ -147,7 +147,7 @@ export default {
         getCart: function() {
             let cart = JSON.parse(localStorage.getItem('cart')) || [];
 
-            let carrinhoUsuario = cart.find(c => c.id_usuario === this.$id_usuario);
+            let carrinhoUsuario = cart.find(c => c.id_usuario === this.$usuario.id);
 
             return carrinhoUsuario ? carrinhoUsuario.produtos : [];
         },
@@ -160,6 +160,31 @@ export default {
                     }
                 });
             }
+        },
+        setJwtInLocalStorage: function (jwt) {
+            localStorage.setItem("jwt", jwt);
+        },
+        removeJwtFromLocalStorage: function () {
+            localStorage.removeItem("jwt");
+        },
+        verifyAuth: function () {
+            return new Promise((resolve, reject) => {
+                let jwt = localStorage.getItem("jwt");
+                let self = this;
+
+                if (jwt) {
+                    self.api.post("/app/check-jwt", { token: jwt }).then((response) => {
+                        jwt = response.data.returnObj;
+                        resolve();
+                    }).catch(() => {
+                        self.$router.push("/login");
+                        reject();
+                    })
+                } else {
+                    self.$router.push("/login");
+                    reject();
+                }
+            })
         }
     }
 };

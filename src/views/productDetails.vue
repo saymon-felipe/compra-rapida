@@ -60,41 +60,43 @@ export default defineComponent({
     watch: {
     },
     methods: {
-        goToCart: async function () {
-            const isAdded = this.addToCart(this.product, this.quantity);
+        goToCart: function () {
+            this.verifyAuth().then(async () => {
+                const isAdded = this.addToCart(this.product, this.quantity);
 
-            if (!isAdded) {
-                const alert = await alertController.create({
-                    header: 'Ops... Loja diferente',
-                    message: 'Você tentou adicionar um produto de uma loja diferente, limpe seu carrinho primeiro.',
-                    buttons: [
-                        {
-                            text: 'Limpar',
-                            handler: () => {
-                                this.clearCart();
-                                return 'limpar';
+                if (!isAdded) {
+                    const alert = await alertController.create({
+                        header: 'Ops... Loja diferente',
+                        message: 'Você tentou adicionar um produto de uma loja diferente, limpe seu carrinho primeiro.',
+                        buttons: [
+                            {
+                                text: 'Limpar',
+                                handler: () => {
+                                    this.clearCart();
+                                    return 'limpar';
+                                }
+                            },
+                            {
+                                text: 'Cancelar',
+                                handler: () => {
+                                    return 'cancelar';
+                                }
                             }
-                        },
-                        {
-                            text: 'Cancelar',
-                            handler: () => {
-                                return 'cancelar';
-                            }
-                        }
-                    ]
-                });
+                        ]
+                    });
 
-                await alert.present();
-                const result = await alert.onWillDismiss();
-                
-                if (result.data === 'limpar') {
-                    this.clearCart();
+                    await alert.present();
+                    const result = await alert.onWillDismiss();
+                    
+                    if (result.data === 'limpar') {
+                        this.clearCart();
+                    }
+
+                    this.$router.push("/cart");
+                } else {
+                    this.$router.push("/cart");
                 }
-
-                this.$router.push("/cart");
-            } else {
-                this.$router.push("/cart");
-            }
+            }).catch();
         }
     },
     mounted: function () {

@@ -8,6 +8,7 @@ import selectAddress from '../views/selectAddress.vue';
 import paymentDetails from '../views/paymentDetails.vue';
 import followOrder from '../views/followOrder.vue';
 import ordersPage from '../views/ordersPage.vue';
+import loginPage from '../views/loginPage.vue';
 
 const routes = [
   {
@@ -58,6 +59,11 @@ const routes = [
     path: '/orders',
     name: 'Orders',
     component: ordersPage
+  },  
+  {
+    path: '/login',
+    name: 'Login',
+    component: loginPage
   }
 ]
 

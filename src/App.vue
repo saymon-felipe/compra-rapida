@@ -6,8 +6,13 @@
 </template>
 
 <script setup>
-  import { IonApp, IonRouterOutlet } from '@ionic/vue';
+  import { IonApp, IonRouterOutlet, isPlatform } from '@ionic/vue';
   import footerComponent from "./components/footerComponent.vue";
+  import { GoogleAuth } from '@codetrix-studio/capacitor-google-auth';
+
+  if (!isPlatform("capacitor")) {
+    GoogleAuth.initialize();
+  }
 </script>
 
 <style>

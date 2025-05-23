@@ -68,13 +68,15 @@ export default defineComponent({
         }
     },
     mounted: function () {
-        let url = new URLSearchParams(window.location.search);
-        let id = url.get("id");
+        this.verifyAuth().then(() => {
+            let url = new URLSearchParams(window.location.search);
+            let id = url.get("id");
 
-        this.id = id;
+            this.id = id;
 
-        this.fillSelectedAddress();
-        this.getOrder();
+            this.fillSelectedAddress();
+            this.getOrder();
+        }).catch();
     }
 })
 </script>

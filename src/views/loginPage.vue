@@ -1,0 +1,91 @@
+<template>
+    <ion-page>
+        <ion-content class="ion-padding">
+            <div class="page-content">
+                <returnComponent title="Entrar" return="/home" />
+                <button class="google-btn" v-on:click="login">
+                    <img src="../assets/img/google-logo.png">
+                    Login com Google
+                </button>
+            </div>
+        </ion-content>
+    </ion-page>
+</template>
+<script>
+import { IonContent, IonPage } from '@ionic/vue';
+import { defineComponent } from 'vue';
+import returnComponent from "../components/returnComponent.vue";
+import { GoogleAuth } from "@codetrix-studio/capacitor-google-auth";
+
+export default defineComponent({
+    components: {
+        IonContent,
+        IonPage,
+        returnComponent
+    },
+    data() {
+        return {
+        }
+    },
+    methods: {
+        login: async function () {
+            try {
+                const response = await GoogleAuth.signIn();
+                console.log('GoogleAuth response:', response);
+            } catch (error) {
+                console.error('GoogleAuth Error:', error);
+            }
+        },
+        handleLoginSuccess(response) {
+            this.api.post("usuarios/google-login", { token: response.code }).then((results) => {
+                Object.assign(this.$usuario, results.data.returnObj.user);
+                this.setJwtInLocalStorage(results.data.returnObj.token);
+
+                this.api.defaults.headers.common['Authorization'] = `Bearer ${results.data.returnObj.token}`;
+            })
+        },
+        logout: function () {
+            this.openContainer = false;
+            this.removeJwtFromLocalStorage();
+            this.api.defaults.headers.common['Authorization'] = "";
+            Object.assign(this.$user, { email: "", given_name: "", id: "", name: "", picture: "", verified_email: false });
+        }
+    },
+    mounted: function () {
+        //GoogleAuth.initialize()
+    }
+})
+</script>
+<style scoped>
+.google-btn {
+    white-space: nowrap;
+    font-size: 1rem;
+    font-family: Open sans;
+    font-weight: 600;
+    color: var(--blue-low);
+    display: flex;
+    place-items: center; 
+    gap: 1.2rem;
+    padding: 1rem;   
+    border-radius: 1rem;
+    border: none;
+    background: var(--gray-high);
+    cursor: pointer;
+
+    &:hover {
+        background: var(--gray-medium);
+    }
+
+    & span {
+        color: var(--blue-low);
+        font-size: 1.1rem;
+        white-space: nowrap;
+    }
+
+    & img {
+        width: 40px;
+        height: 40px;
+    }
+}
+
+</style>

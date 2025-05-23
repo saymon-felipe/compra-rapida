@@ -95,6 +95,7 @@ export default defineComponent({
         }
     },
     mounted: function () {
+        this.verifyAuth();
     }
 })
 </script>

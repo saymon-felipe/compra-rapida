@@ -71,7 +71,7 @@ export default defineComponent({
         }
     },
     mounted: function () {
-        
+        this.fillAddresses();
     }
 })
 </script>

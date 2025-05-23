@@ -137,7 +137,9 @@ export default defineComponent({
         }
     },
     mounted: function () {
-        this.getOrders();
+        this.verifyAuth().then(() => {
+            this.getOrders();
+        }).catch();
     }
 })
 </script>

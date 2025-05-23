@@ -6,6 +6,14 @@ import { IonicVue } from '@ionic/vue';
 import { addIcons } from 'ionicons';
 import * as allIcons from 'ionicons/icons';
 
+import { GoogleAuth } from '@codetrix-studio/capacitor-google-auth'
+
+GoogleAuth.initialize({
+  clientId: '670063294865-jc0num1k9cs0atgvpbd9rkl61t302hq9.apps.googleusercontent.com',
+  scopes: ['profile', 'email'],
+  grantOfflineAccess: true
+})
+
 import { defineCustomElements } from 'ionicons/dist/loader';
 
 const iconMap = {};
@@ -46,16 +54,20 @@ app.directive('cep', vCep);
 
 import formatterMixin from './mixins/formmatter';
 import globalMixin from './mixins/global';
+import api from './plugins/api';
 
 app.mixin(formatterMixin);
 app.mixin(globalMixin);
+app.mixin(api);
 
-app.config.globalProperties.$id_usuario = 1;
+app.config.globalProperties.$usuario = {
+  id: 1
+}
 
 app.config.globalProperties.$getCart = function() {
   let cart = JSON.parse(localStorage.getItem('cart')) || [];
 
-  let carrinhoUsuario = cart.find(c => c.id_usuario === this.$id_usuario);
+  let carrinhoUsuario = cart.find(c => c.id_usuario === this.$usuario.id);
 
   return carrinhoUsuario ? carrinhoUsuario.produtos : [];
 }
