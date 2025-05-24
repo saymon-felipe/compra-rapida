@@ -38,6 +38,11 @@ export default defineComponent({
             activeMenu: '',  // Vai armazenar qual menu está ativo
         };
     },
+    watch: {
+        '$route.path'(newPath) {
+            this.setActiveMenuByRoute(newPath);
+        }
+    },
     methods: {
         // Função para ir para a página Home
         goToHome() {
@@ -68,7 +73,16 @@ export default defineComponent({
                 // Se o menu não estiver ativo, apenas ativa ele
                 this.activeMenu = menu;
             }
+        },
+        setActiveMenuByRoute(route) {
+            if (route.startsWith("/home")) this.activeMenu = "home";
+            else if (route.startsWith("/cart")) this.activeMenu = "cart";
+            else if (route.startsWith("/orders")) this.activeMenu = "orders";
+            else this.activeMenu = "";
         }
+    },
+    mounted: function () {
+        this.setActiveMenuByRoute(this.$route.path);
     }
 })
 

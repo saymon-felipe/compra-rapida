@@ -61,8 +61,10 @@ export default defineComponent({
     },
     methods: {
         goToCart: function () {
+            let self = this;
+
             this.verifyAuth().then(async () => {
-                const isAdded = this.addToCart(this.product, this.quantity);
+                const isAdded = self.addToCart(self.product, self.quantity);
 
                 if (!isAdded) {
                     const alert = await alertController.create({
@@ -72,7 +74,7 @@ export default defineComponent({
                             {
                                 text: 'Limpar',
                                 handler: () => {
-                                    this.clearCart();
+                                    self.clearCart();
                                     return 'limpar';
                                 }
                             },
@@ -89,12 +91,12 @@ export default defineComponent({
                     const result = await alert.onWillDismiss();
                     
                     if (result.data === 'limpar') {
-                        this.clearCart();
+                        self.clearCart();
                     }
 
-                    this.$router.push("/cart");
+                    self.$router.push("/cart");
                 } else {
-                    this.$router.push("/cart");
+                    self.$router.push("/cart");
                 }
             }).catch();
         }

@@ -59,7 +59,7 @@ export default {
         addToCart: function (produto, quantity) {
             let cart = JSON.parse(localStorage.getItem('cart')) || [];
             let index = cart.findIndex(c => c.id_usuario === this.$usuario.id);
-
+            
             if (!cart[index]) {
                 let carrinhoUsuario = {
                     id_usuario: this.$usuario.id,
@@ -69,7 +69,7 @@ export default {
                 index = cart.findIndex(c => c.id_usuario === this.$usuario.id);
             }
             
-            let indexProdutoExistente = cart[index].produtos.findIndex(p => p.id === produto.id) || null;
+            let indexProdutoExistente = cart[index].produtos.findIndex(p => p.id === produto.id);
 
             if (indexProdutoExistente != -1) {
                 cart[index].produtos[indexProdutoExistente].quantity += quantity;
@@ -175,6 +175,7 @@ export default {
                 if (jwt) {
                     self.api.post("/app/check-jwt", { token: jwt }).then((response) => {
                         jwt = response.data.returnObj;
+
                         resolve();
                     }).catch(() => {
                         self.$router.push("/login");

@@ -1,42 +1,28 @@
-import axios from 'axios'
+import axios from 'axios';
 
 let url_api;
 
-const dev_environment = "http://192.168.15.43:3000/"; //Ambiente de desenvolvimento.
-const prod_environment = "https://gourmetech-coreteste-5d758e07e0da.herokuapp.com/"; //Ambiente de teste ou produção.
+const dev_environment = "http://192.168.15.2:3000/"; // Ambiente de desenvolvimento.
+const prod_environment = "https://gourmetech-coreteste-5d758e07e0da.herokuapp.com/"; // Ambiente de teste.
 
-// https://gourmetech-coreteste-5d758e07e0da.herokuapp.com/  --  ambiente de teste
-// https://gourmetech-core-46715094ffeb.herokuapp.com/       --  ambiente de produção         
-
-// TROCA DO AMBIENTE DA API
-//
-// O parâmetro que deverá ser informado será 0 ou 1, sendo que:
-// 0 - Ambiente de teste
-// 1 - Ambiente de produção
-// 
-// ==============================
-let ambient;
-    
-if (window.location.hostname.indexOf("localhost") != -1 || window.location.hostname.indexOf("192.168") != -1) {
-    ambient = 0;
-} else {
-    ambient = 1;
-}
-// ==============================
-//
-
+// Detecta ambiente automaticamente
+let ambient = (window.location.hostname.includes("localhost") || window.location.hostname.includes("192.168")) ? 0 : 1;
 
 switch (ambient) {
-    case 0:
-        url_api = dev_environment;
-        break;
-    case 1: 
-        url_api = prod_environment;
-        break;
+  case 0:
+    url_api = dev_environment;
+    break;
+  case 1:
+    url_api = prod_environment;
+    break;
 }
 
 const api = axios.create({
-    baseURL: url_api
+  baseURL: url_api,
 });
 
-export default api;
+export default {
+  install(app) {
+    app.config.globalProperties.api = api;
+  }
+};

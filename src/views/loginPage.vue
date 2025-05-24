@@ -31,7 +31,24 @@ export default defineComponent({
         login: async function () {
             try {
                 const response = await GoogleAuth.signIn();
-                console.log('GoogleAuth response:', response);
+
+                let dataUser = {
+                    name: response.displayName,
+                    email: response.email,
+                    id: response.id,
+                    token: response.token,
+                    imageUrl: response.imageUrl
+                }
+
+                let self = this;
+                
+                this.api.post("app/google-login", dataUser).then((results) => {
+                    Object.assign(this.$usuario, results.data.returnObj.user);
+                    self.setJwtInLocalStorage(results.data.returnObj.token);
+
+                    self.api.defaults.headers.common['Authorization'] = `Bearer ${results.data.returnObj.token}`;
+                    self.$router.push("/home");
+                })
             } catch (error) {
                 console.error('GoogleAuth Error:', error);
             }
@@ -52,7 +69,7 @@ export default defineComponent({
         }
     },
     mounted: function () {
-        //GoogleAuth.initialize()
+        
     }
 })
 </script>

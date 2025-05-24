@@ -54,14 +54,14 @@ app.directive('cep', vCep);
 
 import formatterMixin from './mixins/formmatter';
 import globalMixin from './mixins/global';
-import api from './plugins/api';
+import apiApp from './plugins/api';
 
 app.mixin(formatterMixin);
 app.mixin(globalMixin);
-app.mixin(api);
+app.use(apiApp);
 
 app.config.globalProperties.$usuario = {
-  id: 1
+  id: null
 }
 
 app.config.globalProperties.$getCart = function() {

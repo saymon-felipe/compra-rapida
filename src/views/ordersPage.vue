@@ -98,6 +98,7 @@ export default defineComponent({
             ]
 
             this.orders = orders;
+            console.log(this.orders)
         },
         repeatOrder: async function (order) {
             let cart = this.getCart();
