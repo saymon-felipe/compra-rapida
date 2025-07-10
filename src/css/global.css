@@ -163,6 +163,7 @@ input:invalid {
   height: 40px;
   border-radius: var(--radius-full);
   border: 1px solid var(--white);
+  background: var(--white);
 }
 
 .store-details {

@@ -25,6 +25,7 @@ export default defineComponent({
     },
     data() {
         return {
+            
         }
     },
     methods: {
@@ -47,7 +48,8 @@ export default defineComponent({
                     self.setJwtInLocalStorage(results.data.returnObj.token);
 
                     self.api.defaults.headers.common['Authorization'] = `Bearer ${results.data.returnObj.token}`;
-                    self.$router.push("/home");
+
+                    self.$router.back();
                 })
             } catch (error) {
                 console.error('GoogleAuth Error:', error);
