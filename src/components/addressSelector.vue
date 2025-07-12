@@ -1,6 +1,8 @@
 <template>
     <div class="address-selector" v-on:click="$emit('changeAddress')">
-        <div class="selected-address">{{ selectedAddress.address }}, {{ selectedAddress.number }}</div>
+        <div class="selected-address" v-if="selectedAddress?.id">{{ selectedAddress.address }}, {{ selectedAddress.number }}</div>
+        <div class="selected-address" v-if="selectedAddress == undefined">Cadastrar endereço</div>
+        <div class="selected-address" v-if="selectedAddress && !selectedAddress.id">Fazer login</div>
         <ion-icon name="chevron-down"></ion-icon>
     </div>
 </template>
@@ -20,6 +22,8 @@ export default defineComponent({
     watch: {
     },
     methods: {
+    },
+    mounted: function () {
     }
 })
 </script>

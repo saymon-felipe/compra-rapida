@@ -8,15 +8,20 @@
                     <div class="address-selector-item" v-for="(address, index) in filteredAddressList" :key="index" :class="{ 'selected': selectedAddress.id === address.id }" v-on:click="selectedAddress = address">
                         <addressItemComponent :address="address" />
                         <div class="address-actions">
-                            <ion-icon name="pencil"></ion-icon>
-                            <ion-icon name="trash"></ion-icon>
+                            <ion-icon name="pencil" v-on:click="editAddress(address)"></ion-icon>
+                            <ion-icon name="trash" v-if="addressList.length > 1"></ion-icon>
                         </div>
                     </div>
                     <div class="address-selector-item" v-if="addressList.length === 0">
                         <div class="address-item">Nenhum endereço encontrado</div>
                     </div> 
                 </div>
-                <button class="btn btn-primary w-100" v-on:click="$router.push('/add-address')">Cadastrar</button>
+                <button class="btn btn-primary w-100" v-on:click="$router.push({
+                    name: 'AddAddress',
+                    params: {
+                        address: {}
+                    }
+                });">Cadastrar</button>
             </div>
         </ion-content>
     </ion-page>
@@ -27,6 +32,7 @@ import { defineComponent } from 'vue';
 import returnComponent from "../components/returnComponent.vue";
 import searchComponent from "../components/searchComponent.vue";
 import addressItemComponent from "../components/addressItemComponent.vue";
+import { alertController } from '@ionic/vue';
 
 export default defineComponent({
     components: {
@@ -50,6 +56,8 @@ export default defineComponent({
             let url = new URLSearchParams(window.location.search);
             let redirect = url.get("redirect");
 
+            localStorage.setItem("selectedAddress", JSON.stringify(selectedAddress));
+
             if (redirect == "cart") {
                 this.$router.push("/select-address");
             }
@@ -58,49 +66,43 @@ export default defineComponent({
     data() {
         return {
             searchString: "",
-            selectedAddress: {
-                id: 1,
-                address: "R. Brasholanda",
-                neighborhood: "Weissópolis",
-                city: "Pinhais",
-                state: "PR",
-                zip_code: "83322070",
-                complement: "Bloco 1 Ap 21",
-                number: 556
-            },
+            selectedAddress: {},
             filteredAddressList: [],
             addressList: []
         }
     },
     methods: {
-        fillAddresses: function () {
-            let addresses = [
-                {
-                    id: 1,
-                    name: "Casa",
-                    address: "R. Brasholanda",
-                    neighborhood: "Weissópolis",
-                    city: "Pinhais",
-                    state: "PR",
-                    zip_code: "83322070",
-                    complement: "Bloco 1 Ap 21",
-                    number: 556
-                },
-                {
-                    id: 2,
-                    name: "Trabalho",
-                    address: "R. Brasholanda",
-                    neighborhood: "Weissópolis",
-                    city: "Pinhais",
-                    state: "PR",
-                    zip_code: "83322070",
-                    complement: "Bloco 1 Ap 22",
-                    number: 557
+        editAddress: function (address) {
+            this.$router.push({
+                name: 'AddAddress',
+                params: {
+                    address: JSON.stringify(address)
                 }
-            ]
+            });
+        },
+        fillAddresses: function () {
+            let self = this;
 
-            this.addressList = addresses;
-            this.filteredAddressList = addresses;
+            this.api.get("app/addresses").then((response) => {
+                let addresses = response.data.returnObj;
+
+                self.addressList = addresses;
+                self.filteredAddressList = addresses;
+
+                let selectedAddress = localStorage.getItem("selectedAddress");
+                
+                self.selectedAddress = selectedAddress ? JSON.parse(selectedAddress) : self.addressList [0];
+            }).catch(() => {
+                alertController.create({
+                    header: 'Erro ao retornar a lista de endereços',
+                    message: 'Tente novamente em alguns minutos.',
+                    buttons: [
+                        {
+                            text: 'Voltar'
+                        }
+                    ]
+                });
+            })            
         }
     },
     mounted: function () {

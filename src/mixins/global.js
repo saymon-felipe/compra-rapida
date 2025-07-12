@@ -167,7 +167,7 @@ export default {
         removeJwtFromLocalStorage: function () {
             localStorage.removeItem("jwt");
         },
-        verifyAuth: function () {
+        verifyAuth: function (readOnly = false) {
             return new Promise((resolve, reject) => {
                 let jwt = localStorage.getItem("jwt");
                 let self = this;
@@ -176,13 +176,22 @@ export default {
                     self.api.post("/app/check-jwt", { token: jwt }).then((response) => {
                         jwt = response.data.returnObj;
 
+                        self.setJwtInLocalStorage(jwt);
+                        self.api.defaults.headers.common['Authorization'] = `Bearer ${jwt}`;
+
                         resolve();
                     }).catch(() => {
-                        self.$router.push("/login");
+                        if (!readOnly) {
+                            self.$router.push("/login");
+                        }
+                        
                         reject();
                     })
                 } else {
-                    self.$router.push("/login");
+                    if (!readOnly) {
+                        self.$router.push("/login");
+                    }
+                    
                     reject();
                 }
             })

@@ -1,6 +1,6 @@
 <template>
   <ion-app>
-    <ion-router-outlet />
+    <ion-router-outlet :key="keyToForceReload" />
   </ion-app>
   <footerComponent />
 </template>
@@ -13,6 +13,30 @@
   if (!isPlatform("capacitor")) {
     GoogleAuth.initialize();
   }
+</script>
+<script>
+export default {
+  data() {
+    return {
+      keyToForceReload: 0
+    };
+  },
+  watch: {
+    '$route.fullPath': {
+      handler(newPath, oldPath) {
+        this.keyToForceReload++;
+      },
+      immediate: true
+    }
+  },
+  mounted: function () {
+    this.verifyAuth(true);
+
+    setInterval(() => {
+      this.verifyAuth(true);
+    }, 60 * 1000)
+  }
+}
 </script>
 
 <style>

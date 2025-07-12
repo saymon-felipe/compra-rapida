@@ -17,6 +17,7 @@ import addressSelector from '../components/addressSelector.vue';
 import searchComponent from "../components/searchComponent.vue";
 import categoriesComponent from "../components/categoriesComponent.vue";
 import filterComponent from "../components/filterComponent.vue";
+import { alertController } from '@ionic/vue';
 
 export default defineComponent({
     components: {
@@ -30,6 +31,7 @@ export default defineComponent({
     data() {
         return {
             selectedAddress: {
+                id: null,
                 address: "",
                 neighborhood: "",
                 city: "",
@@ -81,31 +83,27 @@ export default defineComponent({
     },
     methods: {
         returnAddresses: function () {
-            let addresses = [
-                {
-                    name: "Casa",
-                    address: "R. Brasholanda",
-                    neighborhood: "Weissópolis",
-                    city: "Pinhais",
-                    state: "PR",
-                    zip_code: "83322070",
-                    complement: "Bloco 1 Ap 21",
-                    number: 556
-                },
-                {
-                    name: "Trabalho",
-                    address: "R. Brasholanda",
-                    neighborhood: "Weissópolis",
-                    city: "Pinhais",
-                    state: "PR",
-                    zip_code: "83322070",
-                    complement: "Bloco 1 Ap 22",
-                    number: 557
-                }
-            ]
+            let self = this;
 
-            this.addressList = addresses;
-            this.selectedAddress = addresses[0];
+            this.api.get("app/addresses").then((response) => {
+                let addresses = response.data.returnObj;
+
+                self.addressList = addresses;
+
+                let selectedAddress = localStorage.getItem("selectedAddress");
+                
+                self.selectedAddress = selectedAddress ? JSON.parse(selectedAddress) : self.addressList [0];
+            }).catch(() => {
+                alertController.create({
+                    header: 'Erro ao retornar a lista de endereços',
+                    message: 'Tente novamente em alguns minutos.',
+                    buttons: [
+                        {
+                            text: 'Voltar'
+                        }
+                    ]
+                });
+            })  
         },
         returnCategories: function () {
             let self = this;
@@ -125,7 +123,10 @@ export default defineComponent({
         }
     },
     mounted: function () {
-        this.returnAddresses();
+        this.verifyAuth(true).then(() => {
+            this.returnAddresses();
+        }).catch();
+
         this.returnCategories();
     },
     created() {

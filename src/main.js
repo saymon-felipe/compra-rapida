@@ -64,6 +64,8 @@ app.config.globalProperties.$usuario = {
   id: null
 }
 
+app.config.globalProperties.$selectedAddress = reactive({ id: null });
+
 app.config.globalProperties.$getCart = function() {
   let cart = JSON.parse(localStorage.getItem('cart')) || [];
 

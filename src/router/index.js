@@ -26,7 +26,7 @@ const routes = [
     component: addressPage
   },
   {
-    path: '/add-address',
+    path: '/add-address/:address',
     name: 'AddAddress',
     component: addAddress
   },

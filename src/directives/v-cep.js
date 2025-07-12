@@ -16,9 +16,10 @@ export default {
         try {
           const res = await fetch(`https://viacep.com.br/ws/${cep.replace('-', '')}/json/`);
           const data = await res.json();
+          
           if (!data.erro) {
             // Dispara evento personalizado com os dados do CEP
-            el.dispatchEvent(new CustomEvent('cep-found', { detail: data }));
+            el.dispatchEvent(new CustomEvent('cepFound', { detail: data }));
           }
         } catch (err) {
           console.error('Erro ao buscar CEP:', err);
