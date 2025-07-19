@@ -108,7 +108,7 @@ export default defineComponent({
         returnCategories: function () {
             let self = this;
 
-            this.api.get("app/products").then((results) => {
+            this.api.post("app/products").then((results) => {
                 let categories = results.data.returnObj;
 
                 self.categories = categories;

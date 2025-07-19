@@ -5,19 +5,19 @@
                 <returnComponent title="Carrinho" return="/home" />
                 <div class="cart-header">
                     <h3>Itens adicionados</h3>
-                    <h3 class="orange bold" v-on:click="clearCart()" v-if="$localStorage.cart.length">Limpar</h3>
+                    <h3 class="orange bold" v-on:click="clearCart()" v-if="carrinho.length">Limpar</h3>
                 </div>
-                <div class="store-details" v-if="$localStorage.cart.length">
-                    <img :src="$localStorage.cart[0].store.image" class="avatar">
+                <div class="store-details" v-if="carrinho.length">
+                    <img :src="carrinho[0].store.image" class="avatar">
                     <div class="store-informations">
-                        <h3>{{ $localStorage.cart[0].store.name }}</h3>
+                        <h3>{{ carrinho[0].store.name }}</h3>
                     </div>
                 </div>
                 <div class="empty" v-else>
                     <p>Nenhum produto adicionado</p>
                 </div>
                 <div class="cart-products">
-                    <div class="cart-product" v-for="(product, index) in $localStorage.cart" :key="index">
+                    <div class="cart-product" v-for="(product, index) in carrinho" :key="index">
                         <img :src="product.image">
                         <div class="product-informations">
                             <h3>{{ product.name }}</h3>
@@ -27,7 +27,7 @@
                         <quantitySelectorComponent :currentQuantity="product.quantity" :allowZeroQuantity="true" @exclude="removeFromCart(product.id)" @updateQuantity="product.quantity = $event; saveCart()" />
                     </div>
                 </div>
-                <storeCheckStand :store="$localStorage.cart[0]?.store.id" />
+                <storeCheckStand />
                 <div class="cart-summary">
                     <h3>Resumo</h3>
                     <div class="summary-item">
@@ -36,17 +36,17 @@
                     </div>
                     <div class="summary-item">
                         <p>Taxa de entrega</p>
-                        <p :class="chooseItemDeliveryTaxClass($localStorage.cart[0]?.delivery_tax)">{{ chooseItemDeliveryTax($localStorage.cart[0]?.delivery_tax) }}</p>
+                        <p :class="chooseItemDeliveryTaxClass(carrinho[0]?.delivery_tax)">{{ chooseItemDeliveryTax(carrinho?.delivery_tax) }}</p>
                     </div>
                     <div class="summary-item">
                         <h3>Total</h3>
-                        <h3 class="bold">{{ formatarParaReal((cartItemsSum() + $localStorage.cart[0]?.delivery_tax) || 0) }}</h3>
+                        <h3 class="bold">{{ formatarParaReal((cartItemsSum() + carrinho[0]?.delivery_tax) || 0) }}</h3>
                     </div>
                 </div>
                 <div class="product-action">
-                    <button class="btn btn-primary space-between" style="width: 100%;" v-on:click="goToSelectAddress()" :disabled="$localStorage.cart.length == 0">
+                    <button class="btn btn-primary space-between" style="width: 100%;" v-on:click="goToSelectAddress()" :disabled="carrinho.length == 0">
                         <span>Continuar</span>
-                        <span>{{ formatarParaReal((cartItemsSum() + $localStorage.cart[0]?.delivery_tax) || 0) }}</span>
+                        <span>{{ formatarParaReal((cartItemsSum() + carrinho[0]?.delivery_tax) || 0) }}</span>
                     </button>
                 </div>
             </div>
@@ -70,14 +70,15 @@ export default defineComponent({
     },
     data() {
         return {
+            carrinho: {}
         }
     },
     methods: {
         cartItemsSum: function () {
             let sum = 0;
 
-            for (let i = 0; i < this.$localStorage.cart.length; i++) {
-                let currentProduct = this.$localStorage.cart[i];
+            for (let i = 0; i < this.carrinho.length; i++) {
+                let currentProduct = this.carrinho[i];
 
                 sum += (currentProduct.price * currentProduct.quantity);
             }
@@ -85,13 +86,17 @@ export default defineComponent({
             return sum;
         },
         goToSelectAddress: function () {
-            let cartValue = (this.cartItemsSum() + this.$localStorage.cart[0]?.delivery_tax);
+            let cartValue = (this.cartItemsSum() + this.carrinho[0]?.delivery_tax);
 
             this.$router.push("/select-address?value=" + encodeURIComponent(cartValue));
         }
     },
     mounted: function () {
-        this.verifyAuth().then().catch();
+        let self = this;
+
+        this.verifyAuth().then(() => {
+            self.carrinho = self.getCart();
+        }).catch();
     }
 })
 </script>
@@ -151,7 +156,7 @@ export default defineComponent({
 .cart-summary {
     display: grid;
     gap: var(--space-6);
-    margin: var(--space-4) 0;
+    margin-bottom: var(--space-4);
 
     & .summary-item {
         display: flex;

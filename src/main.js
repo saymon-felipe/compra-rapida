@@ -60,9 +60,9 @@ app.mixin(formatterMixin);
 app.mixin(globalMixin);
 app.use(apiApp);
 
-app.config.globalProperties.$usuario = {
+app.config.globalProperties.$usuario = reactive({
   id: null
-}
+})
 
 app.config.globalProperties.$selectedAddress = reactive({ id: null });
 

@@ -44,9 +44,10 @@ export default defineComponent({
                 let self = this;
                 
                 this.api.post("app/google-login", dataUser).then((results) => {
-                    Object.assign(this.$usuario, results.data.returnObj.user);
+                    
+                    Object.assign(self.$usuario, results.data.returnObj.user);
                     self.setJwtInLocalStorage(results.data.returnObj.token);
-
+                    
                     self.api.defaults.headers.common['Authorization'] = `Bearer ${results.data.returnObj.token}`;
 
                     self.$router.back();
@@ -54,20 +55,6 @@ export default defineComponent({
             } catch (error) {
                 console.error('GoogleAuth Error:', error);
             }
-        },
-        handleLoginSuccess(response) {
-            this.api.post("usuarios/google-login", { token: response.code }).then((results) => {
-                Object.assign(this.$usuario, results.data.returnObj.user);
-                this.setJwtInLocalStorage(results.data.returnObj.token);
-
-                this.api.defaults.headers.common['Authorization'] = `Bearer ${results.data.returnObj.token}`;
-            })
-        },
-        logout: function () {
-            this.openContainer = false;
-            this.removeJwtFromLocalStorage();
-            this.api.defaults.headers.common['Authorization'] = "";
-            Object.assign(this.$user, { email: "", given_name: "", id: "", name: "", picture: "", verified_email: false });
         }
     },
     mounted: function () {

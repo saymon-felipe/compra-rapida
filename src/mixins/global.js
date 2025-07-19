@@ -174,10 +174,10 @@ export default {
 
                 if (jwt) {
                     self.api.post("/app/check-jwt", { token: jwt }).then((response) => {
-                        jwt = response.data.returnObj;
-
-                        self.setJwtInLocalStorage(jwt);
-                        self.api.defaults.headers.common['Authorization'] = `Bearer ${jwt}`;
+                        Object.assign(self.$usuario, response.data.returnObj.user);
+                        self.setJwtInLocalStorage(response.data.returnObj.token);
+                        
+                        self.api.defaults.headers.common['Authorization'] = `Bearer ${response.data.returnObj.token}`;
 
                         resolve();
                     }).catch(() => {
