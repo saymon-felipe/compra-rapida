@@ -151,6 +151,20 @@ export default {
 
             return carrinhoUsuario ? carrinhoUsuario.produtos : [];
         },
+        cartItemsSum: function () {
+            let cart = this.getCart();
+            let sum = 0;
+
+            for (let i = 0; i < cart.length; i++) {
+                let currentProduct = cart[i];
+
+                sum += (currentProduct.price * currentProduct.quantity);
+            }
+
+            sum += cart[0]?.delivery_tax;
+
+            return sum || 0;
+        },
         goToProductDetails: function (product) {
             if (product) {
                 this.$router.push({

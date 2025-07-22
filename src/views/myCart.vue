@@ -40,13 +40,13 @@
                     </div>
                     <div class="summary-item">
                         <h3>Total</h3>
-                        <h3 class="bold">{{ formatarParaReal((cartItemsSum() + carrinho[0]?.delivery_tax) || 0) }}</h3>
+                        <h3 class="bold">{{ formatarParaReal(cartItemsSum()) }}</h3>
                     </div>
                 </div>
                 <div class="product-action">
                     <button class="btn btn-primary space-between" style="width: 100%;" v-on:click="goToSelectAddress()" :disabled="carrinho.length == 0">
                         <span>Continuar</span>
-                        <span>{{ formatarParaReal((cartItemsSum() + carrinho[0]?.delivery_tax) || 0) }}</span>
+                        <span>{{ formatarParaReal(cartItemsSum()) }}</span>
                     </button>
                 </div>
             </div>
@@ -74,21 +74,8 @@ export default defineComponent({
         }
     },
     methods: {
-        cartItemsSum: function () {
-            let sum = 0;
-
-            for (let i = 0; i < this.carrinho.length; i++) {
-                let currentProduct = this.carrinho[i];
-
-                sum += (currentProduct.price * currentProduct.quantity);
-            }
-
-            return sum;
-        },
         goToSelectAddress: function () {
-            let cartValue = (this.cartItemsSum() + this.carrinho[0]?.delivery_tax);
-
-            this.$router.push("/select-address?value=" + encodeURIComponent(cartValue));
+            this.$router.push("/select-address?value=" + encodeURIComponent(this.cartItemsSum()));
         }
     },
     mounted: function () {

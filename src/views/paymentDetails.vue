@@ -41,7 +41,7 @@
                     </div>
                     <div class="summary-item">
                         <h3>Total</h3>
-                        <h3 class="bold">{{ formatarParaReal(cartItemsSum() + $localStorage.cart[0]?.delivery_tax) }}</h3>
+                        <h3 class="bold">{{ formatarParaReal(cartItemsSum()) }}</h3>
                     </div>
                 </div>
                 <div class="product-action">
@@ -77,17 +77,6 @@ export default defineComponent({
         }
     },
     methods: {
-        cartItemsSum: function () {
-            let sum = 0;
-
-            for (let i = 0; i < this.$localStorage.cart.length; i++) {
-                let currentProduct = this.$localStorage.cart[i];
-
-                sum += (currentProduct.price * currentProduct.quantity);
-            }
-
-            return sum;
-        },
         confirmOrder: function () {
             let idPedidoCriado = 15879;
             this.$router.push("/follow-order?id=" + idPedidoCriado);

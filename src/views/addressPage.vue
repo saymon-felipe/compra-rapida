@@ -5,7 +5,7 @@
                 <returnComponent title="Endereço de entrega" return="/home" />
                 <searchComponent v-model="searchString" placeholder="Procurar endereço" />
                 <div class="address-selector-container">
-                    <div class="address-selector-item" v-for="(address, index) in filteredAddressList" :key="index" :class="{ 'selected': selectedAddress.id === address.id }" v-on:click="selectedAddress = address">
+                    <div class="address-selector-item" v-for="(address, index) in filteredAddressList" :key="index" :class="{ 'selected': selectedAddress.id === address.id }" v-on:click="handleSelectAddress(address)">
                         <addressItemComponent :address="address" />
                         <div class="address-actions">
                             <ion-icon name="pencil" v-on:click="editAddress(address)"></ion-icon>
@@ -53,14 +53,7 @@ export default defineComponent({
             }
         },
         selectedAddress: function () {
-            let url = new URLSearchParams(window.location.search);
-            let redirect = url.get("redirect");
-
-            localStorage.setItem("selectedAddress", JSON.stringify(selectedAddress));
-
-            if (redirect == "cart") {
-                this.$router.push("/select-address");
-            }
+            localStorage.setItem("selectedAddress", JSON.stringify(this.selectedAddress));
         }
     },
     data() {
@@ -72,6 +65,16 @@ export default defineComponent({
         }
     },
     methods: {
+        handleSelectAddress: function (address) {
+            this.selectedAddress = address;
+
+            let url = new URLSearchParams(window.location.search);
+            let redirect = url.get("redirect");
+
+            if (redirect == "cart") {
+                this.$router.push("/select-address");
+            }
+        },
         editAddress: function (address) {
             this.$router.push({
                 name: 'AddAddress',
@@ -91,7 +94,11 @@ export default defineComponent({
 
                 let selectedAddress = localStorage.getItem("selectedAddress");
                 
-                self.selectedAddress = selectedAddress ? JSON.parse(selectedAddress) : self.addressList [0];
+                if (!selectedAddress) {
+                    self.selectedAddress = self.addressList[0];
+                } else {
+                    self.selectedAddress = JSON.parse(selectedAddress);
+                }
             }).catch(() => {
                 alertController.create({
                     header: 'Erro ao retornar a lista de endereços',

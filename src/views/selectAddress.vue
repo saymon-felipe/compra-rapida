@@ -12,7 +12,7 @@
                 <div class="product-action">
                     <button class="btn btn-primary space-between" style="width: 100%;" v-on:click="goToPaymentDetails()">
                         <span>Continuar</span>
-                        <span>{{ formatarParaReal(value) }}</span>
+                        <span>{{ formatarParaReal(cartItemsSum()) }}</span>
                     </button>
                 </div>
             </div>
@@ -34,8 +34,7 @@ export default defineComponent({
     },
     data() {
         return {
-            address: {},
-            value: 0
+            address: {}
         }
     },
     methods: {
@@ -43,16 +42,12 @@ export default defineComponent({
             this.$router.push("/set-address?redirect=cart");
         },
         fillSelectedAddress: function () {
-            this.address = {
-                id: 1,
-                name: "Casa",
-                address: "R. Brasholanda",
-                neighborhood: "Weissópolis",
-                city: "Pinhais",
-                state: "PR",
-                zip_code: "83322070",
-                complement: "Bloco 1 Ap 21",
-                number: 556
+            let selectedAddress = localStorage.getItem("selectedAddress");
+
+            if (!selectedAddress) {
+                this.$router.push("/set-address?redirect=cart");
+            } else {
+                this.address = JSON.parse(selectedAddress);
             }
         },
         goToPaymentDetails: function () {
