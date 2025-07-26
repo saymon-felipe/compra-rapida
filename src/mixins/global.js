@@ -1,6 +1,35 @@
 import { alertController } from '@ionic/vue';
 
 export default {
+    watch: {
+        loadingButton: function () {
+            let progress = 0;
+            
+            if (this.loadingButton) {
+                progress = 45;
+            } else {
+                progress = 100;
+            }
+
+            this.loadingStyle = progress;
+
+            setTimeout(() => {
+                if (this.loadingStyle == 100) {
+                    this.loadingStyle = -1;
+
+                    setTimeout(() => {
+                        this.loadingStyle = 0;
+                    }, 400)
+                }
+            }, 400);
+        }
+    },
+    data() {
+        return {
+            loadingStyle: 0,
+            loadingButton: false
+        }
+    },
     methods: {
         chooseItemDeliveryTaxClass(delivery_tax) {
             if (delivery_tax === 0) {

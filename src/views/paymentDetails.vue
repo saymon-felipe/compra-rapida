@@ -45,8 +45,8 @@
                     </div>
                 </div>
                 <div class="product-action">
-                    <button class="btn btn-primary" style="width: 100%;" v-on:click="confirmOrder()">
-                        <span>Confirmar pedido</span>
+                    <button class="btn btn-primary" style="width: 100%;" v-on:click="confirmOrder()" :dataLoading="loadingStyle">
+                        <span>{{ orderStatusButton }}</span>
                     </button>
                 </div>
             </div>
@@ -58,6 +58,7 @@ import { IonContent, IonPage } from '@ionic/vue';
 import { defineComponent } from 'vue';
 import returnComponent from "../components/returnComponent.vue";
 import pixImage from "../assets/img/pix.png";
+import { alertController } from '@ionic/vue';
 
 export default defineComponent({
     components: {
@@ -73,14 +74,52 @@ export default defineComponent({
                     image: pixImage,
                     name: "Pix"
                 }
-            ]
+            ],
+            orderStatusButton: "Confirmar pedido"
         }
     },
     methods: {
         confirmOrder: function () {
-            let idPedidoCriado = 15879;
-            this.$router.push("/follow-order?id=" + idPedidoCriado);
-            this.clearCart();
+            this.loadingButton = true;
+            this.orderStatusButton = "Enviando pedido";
+
+            let self = this;
+
+            let data = self.$getCart().map((product) => {
+                return {
+                    id: product.id,
+                    quantidade: product.quantity,
+                    observacoes: product.observations
+                }
+            })
+
+            this.api.post("app/orders", { products: data }).then((response) => {
+                self.clearCart();
+
+                setTimeout(() => {
+                    self.loadingButton = false;
+
+                    setTimeout(() => {
+                        self.$router.push("/follow-order?id=" + response.data.returnObj);
+                    }, 400)
+                }, 3000)
+            }).catch(async (error) => {
+                self.loadingButton = false;
+                self.orderStatusButton = "Erro ao enviar pedido";
+
+                const alert = await alertController.create({
+                    header: 'Ops... Erro ao enviar pedido',
+                    message: 'Ocorreu um erro ao tentarmos incluir o seu pedido. Por favor tente novamente em alguns minutos.',
+                    buttons: [
+                        {
+                            text: 'OK'
+                        }
+                    ]
+                });
+
+                await alert.present();
+                self.orderStatusButton = "Confirmar pedido";
+            })
         }
     },
     mounted: function () {

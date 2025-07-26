@@ -23,7 +23,7 @@
                                 Observação?
                             </label>
                         </h2>
-                        <textarea name="observacoes" id="observacoes" placeholder="Ex. Sem cebola, adicionar guardanapo, etc." @click="scrollToInput"></textarea>
+                        <textarea name="observacoes" id="observacoes" v-model="product.observations" placeholder="Ex. Sem cebola, adicionar guardanapo, etc." @click="scrollToInput"></textarea>
                     </div>
                     <div class="product-action">
                         <quantitySelectorComponent :currentQuantity="quantity" @updateQuantity="quantity = $event" />

@@ -94,7 +94,6 @@ input:invalid {
   border-radius: 6px;
   border: none;
   cursor: pointer;
-  transition: background 0.4s;
   font-size: var(--fontsize-sm);
   font-weight: bold;
   position: relative;
@@ -102,6 +101,41 @@ input:invalid {
   align-items: center;
   justify-content: center;
   min-width: 130px;
+  transition: background 0.4s;
+  position: relative;
+
+  &::after {
+    content: "";
+    width: 0.01px;
+    height: 100%;
+    position: absolute;
+    top: 0;
+    left: 0;
+    z-index: 1;
+    background: var(--green-high);
+    transition: all 0.4s ease-in-out;
+    opacity: 0;
+  }
+
+  &[dataLoading="0"]::after {
+    opacity: 0;
+    width: 0%;
+  }
+
+  &[dataLoading="45"]::after {
+    opacity: 1;
+    width: 45%;
+  }
+
+  &[dataLoading="100"]::after {
+    opacity: 1;
+    width: 100%;
+  }
+
+  &[dataLoading="-1"]::after {
+    opacity: 0;
+    width: 100%;
+  }
 
   &:disabled {
     cursor: default !important;
@@ -110,6 +144,11 @@ input:invalid {
 
   &.space-between {
     justify-content: space-between !important;
+  }
+
+  & > * {
+    position: relative;
+    z-index: 2;
   }
 }
 
