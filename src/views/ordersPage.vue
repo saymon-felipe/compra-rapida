@@ -50,55 +50,11 @@ export default defineComponent({
     },
     methods: {
         getOrders: function () {
-            let orders = [
-                {
-                    id: 5286,
-                    date: "09-05-2025 18:39",
-                    products: [
-                        {
-                            id: 1,
-                            name: "Choko Cake",
-                            description: "Bolo de chocolate com recheio de morango",
-                            price: 32.90,
-                            estimated_time: "45-55 min",
-                            delivery_tax: 17.90,
-                            distance: 6,
-                            image: "https://i.pinimg.com/originals/22/3d/a2/223da29f5521c837d67b90727765bf1b.jpg",
-                            quantity: 1,
-                            store: {
-                                id: 2,
-                                name: "Chest of Wonders",
-                                image: "https://chestmaids.carrd.co/assets/images/image01.png?v=7e41ed8a"
-                            }
-                        }
-                    ]
-                },
-                {
-                    id: 5286,
-                    date: "09-03-2025 18:39",
-                    products: [
-                        {
-                            id: 1,
-                            name: "Choko Cake",
-                            description: "Bolo de chocolate com recheio de morango",
-                            price: 32.90,
-                            estimated_time: "45-55 min",
-                            delivery_tax: 17.90,
-                            distance: 6,
-                            image: "https://i.pinimg.com/originals/22/3d/a2/223da29f5521c837d67b90727765bf1b.jpg",
-                            quantity: 1,
-                            store: {
-                                id: 2,
-                                name: "Chest of Wonders",
-                                image: "https://chestmaids.carrd.co/assets/images/image01.png?v=7e41ed8a"
-                            }
-                        }
-                    ]
-                }
-            ]
-
-            this.orders = orders;
-            console.log(this.orders)
+            let self = this;
+                
+            this.api.get("app/orders").then((response) => {
+                self.orders = response.data.returnObj;
+            })
         },
         repeatOrder: async function (order) {
             let cart = this.getCart();
