@@ -88,12 +88,6 @@ export default defineComponent({
 })
 </script>
 <style scoped>
-.empty {
-    width: 100%;
-    margin-top: var(--space-6);
-    text-align: center;
-}
-
 .cart-header {
     display: flex;
     align-items: center;

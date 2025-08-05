@@ -4,6 +4,9 @@
             <div class="page-content">
                 <returnComponent title="Meus pedidos" return="/home" />
                 <h3>Histórico</h3>
+                <div class="empty" v-if="orders.length == 0">
+                    <p>Nenhum pedido encontrado</p>
+                </div>
                 <div class="orders-container">
                     <div class="order" v-for="(order, index) in orders" :key="index">
                         <h3>{{ formatarDataPorExtenso(order?.date) }}</h3>
