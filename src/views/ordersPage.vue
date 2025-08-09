@@ -8,25 +8,27 @@
                     <p>Nenhum pedido encontrado</p>
                 </div>
                 <div class="orders-container">
-                    <div class="order" v-for="(order, index) in orders" :key="index">
-                        <h3>{{ formatarDataPorExtenso(order?.date) }}</h3>
-                        <div class="order-inner">
-                            <div class="order-header">
-                                <div class="store-details">
-                                    <img :src="order?.products[0]?.store?.image" class="avatar">
-                                    <p>{{ order?.products[0]?.store?.name }}</p>
+                    <div v-for="(ordersByDate, date) in groupedOrders" :key="date">
+                        <h3>{{ date }} {{ isToday(ordersByDate[0].date) }}</h3>
+                        <div class="order" v-for="(order, index) in ordersByDate" :key="index" v-on:click="goToOrderDetails(order)">
+                            <div class="order-inner">
+                                <div class="order-header">
+                                    <div class="store-details">
+                                        <img :src="order?.products[0]?.store?.image" class="avatar">
+                                        <p>{{ order?.products[0]?.store?.name }}</p>
+                                    </div>
+                                    <p>#{{ order?.id }}</p>
                                 </div>
-                                <p>#{{ order?.id }}</p>
-                            </div>
-                            <div class="order-products">
-                                <div class="product" v-for="(product, index2) in order.products" :key="index2">
-                                    <p>
-                                        <span>{{ product.quantity }}</span>&nbsp;
-                                        <span>{{ product.name }}</span>
-                                    </p>
+                                <div class="order-products">
+                                    <div class="product" v-for="(product, index2) in order.products" :key="index2">
+                                        <p>
+                                            <span>{{ product.quantity }}</span>&nbsp;
+                                            <span>{{ product.name }}</span>
+                                        </p>
+                                    </div>
                                 </div>
+                                <p class="in-progress" v-if="order.in_progress == 1">Em andamento</p>
                             </div>
-                            <p v-on:click="repeatOrder(order)" class="repeat-order">Repetir pedido</p>
                         </div>
                     </div>
                 </div>
@@ -48,16 +50,37 @@ export default defineComponent({
     },
     data() {
         return {
-            orders: []
+            orders: [],
+            groupedOrders: {} // Novo objeto para os pedidos agrupados por data
         }
     },
     methods: {
+        goToOrderDetails: function (order) {
+            if (order) {
+                this.$router.push({
+                    name: 'Order',
+                    params: {
+                        order: JSON.stringify(order)
+                    }
+                });
+            }
+        },
         getOrders: function () {
-            let self = this;
-                
             this.api.get("app/orders").then((response) => {
-                self.orders = response.data.returnObj;
-            })
+                this.orders = response.data.returnObj;
+                this.groupedOrders = this.groupOrdersByDate(this.orders); // Chama a função para agrupar os pedidos
+            });
+        },
+        groupOrdersByDate: function (orders) {
+            const grouped = {};
+            orders.forEach(order => {
+                const date = this.formatarDataPorExtenso(order.date);
+                if (!grouped[date]) {
+                    grouped[date] = [];
+                }
+                grouped[date].push(order);
+            });
+            return grouped;
         },
         repeatOrder: async function (order) {
             let cart = this.getCart();
@@ -108,6 +131,11 @@ export default defineComponent({
     margin: var(--space-6) 0;
     display: grid;
     gap: var(--space-8);
+
+    & > div {
+        display: grid;
+        gap: var(--space-4);
+    }
 }
 
 .order, .order-products {
@@ -123,6 +151,12 @@ export default defineComponent({
     border-radius: var(--radius-md);
     border: 1px solid var(--white);
     padding: var(--space-5);
+
+    & .in-progress {
+        margin-left: 3.2rem;
+        margin-top: 1.5rem;
+        color: var(--orange) !important;
+    }
 }
 
 .order-header {

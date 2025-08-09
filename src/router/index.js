@@ -9,6 +9,7 @@ import paymentDetails from '../views/paymentDetails.vue';
 import followOrder from '../views/followOrder.vue';
 import ordersPage from '../views/ordersPage.vue';
 import loginPage from '../views/loginPage.vue';
+import orderDetails from '../views/orderDetails.vue';
 
 const routes = [
   {
@@ -60,6 +61,11 @@ const routes = [
     name: 'Orders',
     component: ordersPage
   },  
+  {
+    path: '/order/:order',
+    name: 'Order',
+    component: orderDetails
+  }, 
   {
     path: '/login',
     name: 'Login',

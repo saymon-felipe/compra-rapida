@@ -5,7 +5,7 @@
                 <returnComponent title="Carrinho" return="/home" />
                 <div class="cart-header">
                     <h3>Itens adicionados</h3>
-                    <h3 class="orange bold" v-on:click="clearCart()" v-if="carrinho.length">Limpar</h3>
+                    <h3 class="orange bold" v-on:click="clearCart(true)" v-if="carrinho.length">Limpar</h3>
                 </div>
                 <div class="store-details" v-if="carrinho.length">
                     <img :src="carrinho[0].store.image" class="avatar">
@@ -93,57 +93,6 @@ export default defineComponent({
     align-items: center;
     justify-content: space-between;
     margin-bottom: var(--space-4);
-}
-
-.cart-products {
-    display: grid;
-    gap: var(--space-6);
-    padding: var(--space-4) 0;
-}
-
-.cart-product {
-    display: flex;
-    align-items: center;
-    gap: var(--space-4);
-    overflow: hidden;
-    max-width: 100%;  
-
-    & img {
-        width: 70px;
-        height: 70px;
-        border-radius: var(--radius-md);
-        flex-shrink: 0;
-    }
-
-    & .quantity-component {
-        flex-shrink: 0;
-        width: fit-content; 
-    }
-}
-
-.product-informations {
-    flex: 1 1 auto;
-    min-width: 0;
-    overflow: hidden;
-
-    & p {
-        overflow: hidden;
-        text-overflow: ellipsis;
-        white-space: nowrap;
-        margin-bottom: var(--space-3);
-    }
-}
-
-.cart-summary {
-    display: grid;
-    gap: var(--space-6);
-    margin-bottom: var(--space-4);
-
-    & .summary-item {
-        display: flex;
-        align-items: center;
-        justify-content: space-between;
-    }
 }
 
 </style>

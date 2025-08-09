@@ -64,6 +64,28 @@ export default {
           
             return `${diaSemana}, ${dia} ${mes} ${ano}`;
         },
+        formatDate: function (date) {
+            date = new Date(date);
+          
+            const dia = date.getDate();
+            const mes = date.getMonth() - 1;
+            const ano = date.getFullYear();
+            const hora = date.getHours();
+            const minutos = date.getMinutes();
+          
+            return `${dia}/${mes}/${ano} ${hora}:${minutos}`;
+        },
+        isToday: function (date) {
+            date = new Date(date);
+            let now = new Date();
+            now.setHours(now.getHours() - 3);
+            
+            if (now.getDate() == date.getDate() && now.getMonth() == date.getMonth() && now.getFullYear() == date.getFullYear()) {
+                return "(Hoje)";
+            } else {
+                return "";
+            }
+        },
         formatarParaReal(valor) {
             valor = parseFloat(valor);
             
@@ -156,7 +178,7 @@ export default {
                 localStorage.setItem('cart', JSON.stringify(cart));
             }
         },        
-        clearCart: function () {
+        clearCart: function (reload = false) {
             let cart = JSON.parse(localStorage.getItem('cart')) || [];
 
             let index = cart.findIndex(c => c.id_usuario === this.$usuario.id);
@@ -172,6 +194,10 @@ export default {
             cart[index].produtos = [];
 
             localStorage.setItem('cart', JSON.stringify(cart));
+
+            if (reload) {
+                this.$router.go();
+            }
         },
         getCart: function() {
             let cart = JSON.parse(localStorage.getItem('cart')) || [];
@@ -203,6 +229,52 @@ export default {
                     }
                 });
             }
+        },
+        repeatOrder: function (order) {
+            let data = {
+                products: order.products
+            }
+
+            this.api.post("app/return_products", data).then(async (response) => {
+                let unavailableProducts = response.data.returnObj.unavailableProducts;
+                let products = response.data.returnObj.products;
+
+                if (unavailableProducts.length) {
+                    let resultadoHtml = resultado.join("\n");
+
+                    const alert = await alertController.create({
+                        header: 'Ops... Itens faltando',
+                        message: 'Os seguintes itens não foram encontrados ou estão esgotados: \n ' + resultadoHtml,
+                        buttons: [
+                            {
+                                text: 'OK'
+                            }
+                        ]
+                    });
+
+                    await alert.present();
+                } else {
+                    for (let i = 0; i < products.length; i++) {
+                        let currentProduct = products[i];
+                        this.addToCart(currentProduct, currentProduct.quantity);
+                    }
+
+                    this.$router.push("/cart");
+                }
+            }).catch(async (error) => {
+
+                const alert = await alertController.create({
+                    header: 'Ops... Erro ao refazer pedido',
+                    message: 'Ocorreu um erro ao tentarmos refazer o seu pedido. Por favor tente novamente em alguns minutos.',
+                    buttons: [
+                        {
+                            text: 'OK'
+                        }
+                    ]
+                });
+
+                await alert.present();
+            })
         },
         setJwtInLocalStorage: function (jwt) {
             localStorage.setItem("jwt", jwt);
