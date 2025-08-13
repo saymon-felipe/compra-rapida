@@ -52,7 +52,7 @@ const routes = [
     component: paymentDetails
   },  
   {
-    path: '/follow-order',
+    path: '/follow-order/:address:id',
     name: 'FollowOrder',
     component: followOrder
   },  

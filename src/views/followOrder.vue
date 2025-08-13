@@ -32,28 +32,15 @@ export default defineComponent({
     },
     data() {
         return {
-            id: null,
+            id: this.$route.params.id,
             order: {
                 status: "Preparando pedido",
                 progress: 1
             },
-            address: {}
+            address: JSON.parse(this.$route.params.address)
         }
     },
     methods: {
-        fillSelectedAddress: function () {
-            this.address = {
-                id: 1,
-                name: "Casa",
-                address: "R. Brasholanda",
-                neighborhood: "Weissópolis",
-                city: "Pinhais",
-                state: "PR",
-                zip_code: "83322070",
-                complement: "Bloco 1 Ap 21",
-                number: 556
-            }
-        },
         getOrder: function () {
             setTimeout(() => {
                 this.order = {
@@ -64,17 +51,11 @@ export default defineComponent({
 
             setTimeout(() => {
                 this.getOrder();
-            }, 10 * 1000)
+            }, 60 * 1000)
         }
     },
     mounted: function () {
         this.verifyAuth().then(() => {
-            let url = new URLSearchParams(window.location.search);
-            let id = url.get("id");
-
-            this.id = id;
-
-            this.fillSelectedAddress();
             this.getOrder();
         }).catch();
     }

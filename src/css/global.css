@@ -237,7 +237,7 @@ input:invalid {
   color: var(--green) !important;
 }
 
-.cart-products {
+.cart-products, .shipping {
     display: grid;
     gap: var(--space-6);
     padding: var(--space-4) 0;

@@ -19,6 +19,10 @@
                         </div>
                     </div>
                 </div>
+                <div class="shipping">
+                    <h3>Entrega</h3>
+                    <addressItemComponent :address="address" />
+                </div>
                 <h3>Pagamento pelo app</h3>
                 <div class="payment-methods">
                     <div class="payment-method" v-for="(method, index) in paymentMethods" :key="index">
@@ -59,12 +63,14 @@ import { defineComponent } from 'vue';
 import returnComponent from "../components/returnComponent.vue";
 import pixImage from "../assets/img/pix.png";
 import { alertController } from '@ionic/vue';
+import addressItemComponent from "../components/addressItemComponent.vue";
 
 export default defineComponent({
     components: {
         IonContent,
         IonPage,
-        returnComponent
+        returnComponent,
+        addressItemComponent
     },
     data() {
         return {
@@ -75,7 +81,8 @@ export default defineComponent({
                     name: "Pix"
                 }
             ],
-            orderStatusButton: "Confirmar pedido"
+            orderStatusButton: "Confirmar pedido",
+            address: JSON.parse(localStorage.getItem("selectedAddress"))
         }
     },
     methods: {
@@ -93,14 +100,20 @@ export default defineComponent({
                 }
             })
 
-            this.api.post("app/orders", { products: data }).then((response) => {
+            this.api.post("app/orders", { products: data, address_id: this.address.id }).then((response) => {
                 self.clearCart();
 
                 setTimeout(() => {
                     self.loadingButton = false;
 
                     setTimeout(() => {
-                        self.$router.push("/follow-order?id=" + response.data.returnObj);
+                        self.$router.push({
+                            name: "FollowOrder",
+                            params: {
+                                address: response.data.returnObj.address,
+                                id: response.data.returnObj.id
+                            }
+                        });
                     }, 400)
                 }, 3000)
             }).catch(async (error) => {

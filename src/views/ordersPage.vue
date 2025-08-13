@@ -57,12 +57,22 @@ export default defineComponent({
     methods: {
         goToOrderDetails: function (order) {
             if (order) {
-                this.$router.push({
-                    name: 'Order',
-                    params: {
-                        order: JSON.stringify(order)
-                    }
-                });
+                if (order.in_progress == 0) {
+                    this.$router.push({
+                        name: 'Order',
+                        params: {
+                            order: JSON.stringify(order)
+                        }
+                    });
+                } else {
+                    this.$router.push({
+                        name: "FollowOrder",
+                        params: {
+                            address: JSON.stringify(order.address),
+                            id: order.id
+                        }
+                    });
+                }
             }
         },
         getOrders: function () {
