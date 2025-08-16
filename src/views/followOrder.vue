@@ -64,6 +64,10 @@ export default defineComponent({
                     await alert.present();
 
                     self.$router.push("/orders");
+                } else {
+                    setTimeout(() => {
+                        self.getOrder();
+                    }, 30 * 1000)
                 }
             }).catch(() => {
                 alertController.create({
@@ -75,10 +79,6 @@ export default defineComponent({
                         }
                     ]
                 });
-            }).then(() => {
-                setTimeout(() => {
-                    this.getOrder();
-                }, 30 * 1000)
             })
         }
     },
