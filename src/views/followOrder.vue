@@ -22,6 +22,7 @@ import { IonContent, IonPage } from '@ionic/vue';
 import { defineComponent } from 'vue';
 import returnComponent from "../components/returnComponent.vue";
 import addressItemComponent from "../components/addressItemComponent.vue";
+import { alertController } from '@ionic/vue';
 
 export default defineComponent({
     components: {
@@ -42,16 +43,43 @@ export default defineComponent({
     },
     methods: {
         getOrder: function () {
-            setTimeout(() => {
-                this.order = {
-                    status: "Preparando pedido",
-                    progress: 20
-                }
-            }, 1000)
+            let self = this;
 
-            setTimeout(() => {
-                this.getOrder();
-            }, 60 * 1000)
+            this.api.get("app/follow_order/" + self.id).then(async (response) => {
+                let orderStatus = response.data.returnObj;
+
+                self.order = orderStatus;
+
+                if (self.order.progress == 100) {
+                    const alert = await alertController.create({
+                        header: 'Entrega concluída',
+                        message: 'Seu pedido foi entregue. Agradeçemos por ter usado o nosso app!',
+                        buttons: [
+                            {
+                                text: 'Voltar'
+                            }
+                        ]
+                    });
+
+                    await alert.present();
+
+                    self.$router.push("/orders");
+                }
+            }).catch(() => {
+                alertController.create({
+                    header: 'Erro ao retornar ao rastrear o pedido',
+                    message: 'Tente novamente em alguns minutos.',
+                    buttons: [
+                        {
+                            text: 'Voltar'
+                        }
+                    ]
+                });
+            }).then(() => {
+                setTimeout(() => {
+                    this.getOrder();
+                }, 30 * 1000)
+            })
         }
     },
     mounted: function () {
