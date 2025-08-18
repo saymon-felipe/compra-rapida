@@ -54,7 +54,7 @@
 }
 
 .orange {
-  color: var(--orange) !important;
+  color: var(--secondary) !important;
 }
 
 .bold {
@@ -86,7 +86,7 @@ input[type="radio"], input[type="checkbox"] {
 }
 
 input:invalid {
-  border: 1px solid var(--orange);
+  border: 1px solid var(--secondary);
 }
 
 .btn {
@@ -112,7 +112,7 @@ input:invalid {
     top: 0;
     left: 0;
     z-index: 1;
-    background: var(--green-high);
+    background: var(--primary-high);
     transition: all 0.4s ease-in-out;
     opacity: 0;
   }
@@ -153,20 +153,26 @@ input:invalid {
 }
 
 .btn-primary {
-  background: var(--green);
-  color: var(--white);
+  background: var(--primary);
+  color: var(--black) !important;
+  font-weight: 600;
+
+  & span {
+    color: var(--black) !important;
+    font-weight: 600;
+  }
 }
 
   .btn-primary:hover {
-      background: var(--green-low);
+      background: var(--primary-low);
   }
 
   .btn-primary:focus, .btn-primary:active {
-      outline: 2px solid var(--green-high);
+      outline: 2px solid var(--primary-high);
   }
 
   .btn-primary:disabled {
-      background: var(--green-high);
+      background: var(--primary-high);
       outline: none !important;
       cursor: not-allowed;
   }
@@ -234,7 +240,7 @@ input:invalid {
 }
 
 .green {
-  color: var(--green) !important;
+  color: var(--primary) !important;
 }
 
 .cart-products, .shipping {
@@ -301,7 +307,7 @@ input:invalid {
     & ion-icon {
         font-size: 2rem;
         cursor: pointer;
-        color: var(--orange);
+        color: var(--secondary);
     }
 }
 

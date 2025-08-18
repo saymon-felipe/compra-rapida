@@ -117,7 +117,7 @@ export default defineComponent({
     background: var(--white);
 
     & .progress-bar {
-        background: var(--green);
+        background: var(--secondary);
         height: 100%;
         width: 1px;
         transition: width 0.4s ease-in-out;

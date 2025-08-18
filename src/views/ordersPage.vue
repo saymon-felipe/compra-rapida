@@ -165,7 +165,7 @@ export default defineComponent({
     & .in-progress {
         margin-left: 3.2rem;
         margin-top: 1.5rem;
-        color: var(--orange) !important;
+        color: var(--secondary) !important;
     }
 }
 
@@ -178,7 +178,7 @@ export default defineComponent({
 .repeat-order {
     text-align: center;
     margin-top: var(--space-6);
-    color: var(--orange) !important;
+    color: var(--secondary) !important;
     cursor: pointer;
 }
 </style>

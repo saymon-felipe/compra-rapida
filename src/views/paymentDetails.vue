@@ -105,12 +105,12 @@ export default defineComponent({
 
                 setTimeout(() => {
                     self.loadingButton = false;
-
+                    
                     setTimeout(() => {
                         self.$router.push({
                             name: "FollowOrder",
                             params: {
-                                address: response.data.returnObj.address,
+                                address: JSON.stringify(response.data.returnObj.address),
                                 id: response.data.returnObj.id
                             }
                         });

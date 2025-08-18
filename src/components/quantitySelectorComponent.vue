@@ -55,6 +55,6 @@ export default defineComponent({
 }
 
 .add {
-    color: var(--orange);
+    color: var(--secondary);
 }
 </style>

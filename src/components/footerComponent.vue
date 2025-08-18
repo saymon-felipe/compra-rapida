@@ -98,7 +98,7 @@ export default defineComponent({
     left: 0;
     right: 0;
     margin: auto;
-    background-image: linear-gradient(to right, var(--orange), var(--orange-2));
+    background-image: linear-gradient(to right, var(--secondary), var(--secondary-low));
     padding: 1rem 0;
     z-index: 100;
     overflow: hidden;
@@ -151,6 +151,6 @@ export default defineComponent({
 
 /* Cor ativa para o item selecionado */
 .menu-item.active p, .menu-item.active ion-icon {
-    color: var(--green-high);
+    color: var(--primary-high);
 }
 </style>

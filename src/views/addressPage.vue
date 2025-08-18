@@ -138,7 +138,7 @@ export default defineComponent({
     }
 
     .selected {
-        border-color: var(--orange);
+        border-color: var(--secondary);
     }
 
     .address-actions {
@@ -152,7 +152,7 @@ export default defineComponent({
             cursor: pointer;
 
             &:last-child {
-                color: var(--orange);
+                color: var(--secondary);
             }
         }
     }

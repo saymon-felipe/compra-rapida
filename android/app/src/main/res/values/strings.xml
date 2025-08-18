@@ -1,7 +1,7 @@
 <?xml version='1.0' encoding='utf-8'?>
 <resources>
-    <string name="app_name">compra-rapida</string>
-    <string name="title_activity_main">compra-rapida</string>
+    <string name="app_name">Compra Rápida</string>
+    <string name="title_activity_main">Compra Rápida</string>
     <string name="package_name">com.rabsystems.comprarapida</string>
     <string name="custom_url_scheme">com.rabsystems.comprarapida</string>
     <string name="server_client_id">670063294865-jc0num1k9cs0atgvpbd9rkl61t302hq9.apps.googleusercontent.com</string>

@@ -85,7 +85,7 @@ export default defineComponent({
 }
 
 .change-address {
-    color: var(--orange);
+    color: var(--secondary);
     cursor: pointer;
 }
 </style>

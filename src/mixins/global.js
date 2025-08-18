@@ -300,6 +300,7 @@ export default {
                             self.$router.push("/login");
                         }
                         
+                        self.removeJwtFromLocalStorage();
                         reject();
                     })
                 } else {

@@ -125,13 +125,17 @@ export default {
   }
 
   & .price {
-    background: var(--green);
+    background: var(--primary);
     width: fit-content;
     padding: var(--space-2) var(--space-3);
     border-radius: var(--radius-sm);
     position: absolute;
     bottom: var(--space-4);
     left: -7px;
+
+    & span {
+      color: var(--black) !important;
+    }
   }
 
   & .item-informations {

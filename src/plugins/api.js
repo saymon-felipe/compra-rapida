@@ -2,11 +2,11 @@ import axios from 'axios';
 
 let url_api;
 
-const dev_environment = "http://192.168.15.7:3000/"; // Ambiente de desenvolvimento.
+const dev_environment = "http://192.168.15.8:3000/"; // Ambiente de desenvolvimento.
 const prod_environment = "https://gourmetech-coreteste-5d758e07e0da.herokuapp.com/"; // Ambiente de teste.
 
-// Detecta ambiente automaticamente
-let ambient = (window.location.hostname.includes("localhost") || window.location.hostname.includes("192.168")) ? 0 : 1;
+// Ambiente, 0 para dev e 1 para producao
+let ambient = 1;
 
 switch (ambient) {
   case 0:

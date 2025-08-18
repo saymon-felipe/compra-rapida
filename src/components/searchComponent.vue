@@ -38,7 +38,7 @@
   
     & ion-icon {
       font-size: var(--fontsize-md);
-      color: var(--orange);
+      color: var(--secondary);
       position: absolute;
       top: 0;
       bottom: 0;

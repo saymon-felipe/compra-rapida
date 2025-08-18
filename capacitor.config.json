@@ -1,6 +1,6 @@
 {
   "appId": "com.rabsystems.comprarapida",
-  "appName": "compra-rapida",
+  "appName": "Compra Rápida",
   "webDir": "dist",
   "server": {
     "androidScheme": "https"
