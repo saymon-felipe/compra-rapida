@@ -317,6 +317,28 @@ export default {
                     reject();
                 }
             })
+        },
+        setSelectedAddress: function (address) {
+            let localStorageAddresses = JSON.parse(localStorage.getItem('selectedAddress')) || [];
+
+            let index = localStorageAddresses.findIndex(a => a.id_usuario === this.$usuario.id);
+
+            let selectedAddress = {...address, id_usuario: this.$usuario.id };
+
+            if (!localStorageAddresses[index]) {
+                localStorageAddresses.push(selectedAddress);
+                index = localStorageAddresses.findIndex(a => a.id_usuario === this.$usuario.id);
+            }
+
+            localStorageAddresses[index] = selectedAddress;
+            localStorage.setItem('selectedAddress', JSON.stringify(localStorageAddresses));
+        },
+        getSelectedAddress: function () {
+            let localStorageAddresses = JSON.parse(localStorage.getItem('selectedAddress')) || [];
+
+            let index = localStorageAddresses.findIndex(a => a.id_usuario === this.$usuario.id);
+
+            return localStorageAddresses[index] || undefined;
         }
     }
 };

@@ -53,7 +53,7 @@ export default defineComponent({
             }
         },
         selectedAddress: function () {
-            localStorage.setItem("selectedAddress", JSON.stringify(this.selectedAddress));
+            this.setSelectedAddress(this.selectedAddress);
         }
     },
     data() {
@@ -92,12 +92,13 @@ export default defineComponent({
                 self.addressList = addresses;
                 self.filteredAddressList = addresses;
 
-                let selectedAddress = localStorage.getItem("selectedAddress");
+                let selectedAddress = this.getSelectedAddress();
                 
                 if (!selectedAddress) {
                     self.selectedAddress = self.addressList[0];
+                    self.$selectedAddress = self.selectedAddress;
                 } else {
-                    self.selectedAddress = JSON.parse(selectedAddress);
+                    self.selectedAddress = selectedAddress;
                 }
             }).catch(() => {
                 alertController.create({

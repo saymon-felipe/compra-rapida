@@ -42,12 +42,12 @@ export default defineComponent({
             this.$router.push("/set-address?redirect=cart");
         },
         fillSelectedAddress: function () {
-            let selectedAddress = localStorage.getItem("selectedAddress");
+            let selectedAddress = this.getSelectedAddress();
 
-            if (!selectedAddress) {
+            if (!selectedAddress.id) {
                 this.$router.push("/set-address?redirect=cart");
             } else {
-                this.address = JSON.parse(selectedAddress);
+                this.address = selectedAddress;
             }
         },
         goToPaymentDetails: function () {

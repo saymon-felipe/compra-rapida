@@ -1,8 +1,9 @@
 <template>
     <div class="address-selector" v-on:click="$emit('changeAddress')">
         <div class="selected-address" v-if="selectedAddress?.id">{{ selectedAddress.address }}, {{ selectedAddress.number }}</div>
-        <div class="selected-address" v-if="selectedAddress == undefined">Cadastrar endereço</div>
-        <div class="selected-address" v-if="selectedAddress && !selectedAddress.id">Fazer login</div>
+        <div class="selected-address" v-if="$usuario.id && !selectedAddress?.id && (addressList && addressList.length == 0)">Cadastrar endereço</div>
+        <div class="selected-address" v-if="$usuario.id && !selectedAddress?.id && (addressList && addressList.length != 0)">Selecionar endereço</div>
+        <div class="selected-address" v-if="!$usuario.id && !selectedAddress?.id && (addressList && addressList.length == 0)">Fazer login</div>
         <ion-icon name="chevron-down"></ion-icon>
     </div>
 </template>
@@ -11,7 +12,7 @@ import { IonIcon } from '@ionic/vue';
 import { defineComponent } from 'vue';
 
 export default defineComponent({
-    props: ["selectedAddress"],
+    props: ["selectedAddress", "addressList"],
     components: {
         IonIcon
     },
@@ -35,5 +36,12 @@ export default defineComponent({
     margin: auto;
     justify-content: center;
     cursor: pointer;
+}
+
+.selected-address {
+    max-width: 60vw;
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
 }
 </style>

@@ -82,7 +82,7 @@ export default defineComponent({
                 }
             ],
             orderStatusButton: "Confirmar pedido",
-            address: JSON.parse(localStorage.getItem("selectedAddress"))
+            address: this.getSelectedAddress()
         }
     },
     methods: {

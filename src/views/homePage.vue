@@ -33,16 +33,7 @@ export default defineComponent({
     },
     data() {
         return {
-            selectedAddress: {
-                id: null,
-                address: "",
-                neighborhood: "",
-                city: "",
-                state: "",
-                zip_code: "",
-                complement: "",
-                number: null
-            },
+            selectedAddress: this.getSelectedAddress(),
             addressList: [],
             searchString: "",
             filteredCategories: [],
@@ -92,10 +83,10 @@ export default defineComponent({
                 let addresses = response.data.returnObj;
 
                 self.addressList = addresses;
-
-                let selectedAddress = localStorage.getItem("selectedAddress");
                 
-                self.selectedAddress = selectedAddress ? JSON.parse(selectedAddress) : self.addressList [0];
+                let selectedAddress = this.getSelectedAddress();
+                
+                self.selectedAddress = selectedAddress;// ? JSON.parse(selectedAddress) : self.addressList[0];
             }).catch(() => {
                 alertController.create({
                     header: 'Erro ao retornar a lista de endereços',
