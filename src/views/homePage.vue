@@ -2,6 +2,7 @@
     <ion-page>
         <ion-content class="ion-padding">
             <div class="page-content">
+                <menuComponent></menuComponent>
                 <addressSelector @changeAddress="handleChangeAddress()" :selectedAddress="selectedAddress" :addressList="addressList" />
                 <searchComponent v-model="searchString" placeholder="Buscar produto/categoria/loja" />
                 <filterComponent :filtered="filteredCategories" @order="filteredCategories = $event" />
@@ -18,6 +19,7 @@ import searchComponent from "../components/searchComponent.vue";
 import categoriesComponent from "../components/categoriesComponent.vue";
 import filterComponent from "../components/filterComponent.vue";
 import { alertController } from '@ionic/vue';
+import menuComponent from "../components/menuComponent.vue";
 
 export default defineComponent({
     components: {
@@ -26,7 +28,8 @@ export default defineComponent({
         addressSelector,
         searchComponent,
         categoriesComponent,
-        filterComponent
+        filterComponent,
+        menuComponent
     },
     data() {
         return {

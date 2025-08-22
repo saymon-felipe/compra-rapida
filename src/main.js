@@ -64,6 +64,8 @@ app.config.globalProperties.$usuario = reactive({
   id: null
 })
 
+app.config.globalProperties.$version = "1.0";
+
 app.config.globalProperties.$selectedAddress = reactive({ id: null });
 
 app.config.globalProperties.$getCart = function() {

@@ -6,7 +6,7 @@ const dev_environment = "http://192.168.15.8:3000/"; // Ambiente de desenvolvime
 const prod_environment = "https://gourmetech-coreteste-5d758e07e0da.herokuapp.com/"; // Ambiente de teste.
 
 // Ambiente, 0 para dev e 1 para producao
-let ambient = 1;
+let ambient = 0;
 
 switch (ambient) {
   case 0:

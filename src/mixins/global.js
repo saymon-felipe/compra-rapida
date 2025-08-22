@@ -282,6 +282,12 @@ export default {
         removeJwtFromLocalStorage: function () {
             localStorage.removeItem("jwt");
         },
+        logout: function () {
+            this.removeJwtFromLocalStorage();
+            this.$usuario = {
+                id: null
+            }
+        },
         verifyAuth: function (readOnly = false) {
             return new Promise((resolve, reject) => {
                 let jwt = localStorage.getItem("jwt");
@@ -300,7 +306,7 @@ export default {
                             self.$router.push("/login");
                         }
                         
-                        self.removeJwtFromLocalStorage();
+                        self.logout();
                         reject();
                     })
                 } else {
