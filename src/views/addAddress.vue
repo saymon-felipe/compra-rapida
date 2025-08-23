@@ -102,6 +102,14 @@ export default defineComponent({
             let method = this.isEdit ? "patch" : "post";
 
             this.api[method]("app/addresses", data).then(() => {
+                if (self.isEdit) {
+                    let selectedAddress = self.getSelectedAddress();
+                    
+                    if (selectedAddress.id == data.id) {
+                        self.setSelectedAddress(data);
+                    }
+                }
+
                 self.$router.back();
             }).catch(() => {
                 alertController.create({

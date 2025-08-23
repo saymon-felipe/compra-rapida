@@ -2,7 +2,7 @@
     <div class="address-informations">
         <p class="address-name">{{ address.name }}</p>
         <div class="address-item">{{ address.address }}, {{ address.number }}</div>
-        <p class="address-complement">{{ address.complement }}, {{ address.city }}</p>
+        <p class="address-complement">{{ address.complement ? (address.complement + ",") : "" }} {{ address.city }}</p>
     </div>
 </template>
 <script>
