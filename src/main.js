@@ -86,6 +86,7 @@ app.config.globalProperties.$watchLocalStorage = function () {
 
     if (rawCart !== lastCart) {
       lastCart = rawCart;
+      
       app.config.globalProperties.$localStorage.cart = app.config.globalProperties.$getCart();
     }
   }, 200);

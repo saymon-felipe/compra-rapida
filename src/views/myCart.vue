@@ -5,7 +5,7 @@
                 <returnComponent title="Carrinho" return="/home" />
                 <div class="cart-header">
                     <h3>Itens adicionados</h3>
-                    <h3 class="orange bold" v-on:click="clearCart(true)" v-if="carrinho.length">Limpar</h3>
+                    <h3 class="orange bold" v-on:click="clearCart()" v-if="carrinho.length">Limpar</h3>
                 </div>
                 <div class="store-details" v-if="carrinho.length">
                     <img :src="carrinho[0].store.image" class="avatar">
@@ -22,6 +22,7 @@
                         <div class="product-informations">
                             <h3>{{ product.name }}</h3>
                             <p>{{ product.description }}</p>
+                            <p v-if="product.observations">{{ product.observations }}</p>
                             <h3 class="bold">{{ formatarParaReal(product.price) }}</h3>
                         </div>
                         <quantitySelectorComponent :currentQuantity="product.quantity" :allowZeroQuantity="true" @exclude="removeFromCart(product.id)" @updateQuantity="product.quantity = $event; saveCart()" />
@@ -71,6 +72,14 @@ export default defineComponent({
     data() {
         return {
             carrinho: {}
+        }
+    },
+    watch: {
+        "$localStorage": {
+            handler() {
+                this.carrinho = this.getCart();
+            },
+            deep: true
         }
     },
     methods: {

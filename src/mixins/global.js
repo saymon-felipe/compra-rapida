@@ -147,15 +147,10 @@ export default {
                 buttons: [
                     {
                         text: 'Sim',
-                        handler: () => {
-                            return 'sim';
-                        }
+                        role: "sim"
                     },
                     {
-                        text: 'Cancelar',
-                        handler: () => {
-                            return 'cancelar';
-                        }
+                        text: 'Cancelar'
                     }
                 ]
             });
@@ -163,10 +158,10 @@ export default {
             await alert.present();
             const result = await alert.onWillDismiss();
             
-            if (result.data === 'sim') {
+            if (result.role === 'sim') {
                 let cart = JSON.parse(localStorage.getItem('cart')) || [];
                 let index = cart.findIndex(c => c.id_usuario === this.$usuario.id);
-            
+                
                 if (index === -1) return;
             
                 cart[index].produtos = cart[index].produtos.filter(p => p.id !== produtoId);
@@ -178,25 +173,40 @@ export default {
                 localStorage.setItem('cart', JSON.stringify(cart));
             }
         },        
-        clearCart: function (reload = false) {
-            let cart = JSON.parse(localStorage.getItem('cart')) || [];
+        clearCart: async function () {
+            const alert = await alertController.create({
+                header: 'Limpar carrinho',
+                message: 'Você tem certeza que deseja limpar o seu carrinho de compras?',
+                buttons: [
+                    {
+                        text: 'Sim',
+                        role: "sim"
+                    },
+                    {
+                        text: 'Cancelar'
+                    }
+                ]
+            });
 
-            let index = cart.findIndex(c => c.id_usuario === this.$usuario.id);
+            await alert.present();
+            const result = await alert.onWillDismiss();
+            
+            if (result.role === 'sim') {
+                let cart = JSON.parse(localStorage.getItem('cart')) || [];
 
-            if (index == -1) {
-                let carrinhoUsuario = {
-                    id_usuario: this.$usuario.id,
-                    produtos: []
-                };
-                cart.push(carrinhoUsuario);
-            }
+                let index = cart.findIndex(c => c.id_usuario === this.$usuario.id);
 
-            cart[index].produtos = [];
+                if (index == -1) {
+                    let carrinhoUsuario = {
+                        id_usuario: this.$usuario.id,
+                        produtos: []
+                    };
+                    cart.push(carrinhoUsuario);
+                }
 
-            localStorage.setItem('cart', JSON.stringify(cart));
+                cart[index].produtos = [];
 
-            if (reload) {
-                this.$router.go();
+                localStorage.setItem('cart', JSON.stringify(cart));
             }
         },
         getCart: function() {
