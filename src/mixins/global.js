@@ -173,25 +173,29 @@ export default {
                 localStorage.setItem('cart', JSON.stringify(cart));
             }
         },        
-        clearCart: async function () {
-            const alert = await alertController.create({
-                header: 'Limpar carrinho',
-                message: 'Você tem certeza que deseja limpar o seu carrinho de compras?',
-                buttons: [
-                    {
-                        text: 'Sim',
-                        role: "sim"
-                    },
-                    {
-                        text: 'Cancelar'
-                    }
-                ]
-            });
+        clearCart: async function ({ forceClear = false }) {
+            let result;
 
-            await alert.present();
-            const result = await alert.onWillDismiss();
+            if (!forceClear) {
+                const alert = await alertController.create({
+                    header: 'Limpar carrinho',
+                    message: 'Você tem certeza que deseja limpar o seu carrinho de compras?',
+                    buttons: [
+                        {
+                            text: 'Sim',
+                            role: "sim"
+                        },
+                        {
+                            text: 'Cancelar'
+                        }
+                    ]
+                });
+
+                await alert.present();
+                result = await alert.onWillDismiss();
+            }
             
-            if (result.role === 'sim') {
+            if (forceClear || result?.role === 'sim') {
                 let cart = JSON.parse(localStorage.getItem('cart')) || [];
 
                 let index = cart.findIndex(c => c.id_usuario === this.$usuario.id);
@@ -345,10 +349,21 @@ export default {
         },
         getSelectedAddress: function () {
             let localStorageAddresses = JSON.parse(localStorage.getItem('selectedAddress')) || [];
-
+            
             let index = localStorageAddresses.findIndex(a => a.id_usuario === this.$usuario.id);
 
             return localStorageAddresses[index] || undefined;
+        },
+        removeSelectedAddress: function () {
+            if (!this.getSelectedAddress()) return;
+
+            let localStorageAddresses = JSON.parse(localStorage.getItem('selectedAddress')) || [];
+            
+            let index = localStorageAddresses.findIndex(a => a.id_usuario === this.$usuario.id);
+
+            localStorageAddresses.splice(index, 1);
+
+            localStorage.setItem("selectedAddress", JSON.stringify(localStorageAddresses));
         }
     }
 };

@@ -4,7 +4,7 @@
             <div class="page-content">
                 <returnComponent title="Entrega" return="/cart" />
                 <h3>Entregar no endereço</h3>
-                <div class="address">
+                <div class="address" v-if="address?.id">
                     <ion-icon name="locate"></ion-icon>
                     <addressItemComponent :address="address" />
                     <ion-icon name="sync" class="change-address" v-on:click="handleChangeAddressBeforeContinue"></ion-icon>
@@ -44,7 +44,7 @@ export default defineComponent({
         fillSelectedAddress: function () {
             let selectedAddress = this.getSelectedAddress();
 
-            if (!selectedAddress.id) {
+            if (!selectedAddress?.id) {
                 this.$router.push("/set-address?redirect=cart");
             } else {
                 this.address = selectedAddress;

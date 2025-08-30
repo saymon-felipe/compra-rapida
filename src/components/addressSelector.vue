@@ -21,10 +21,26 @@ export default defineComponent({
         }
     },
     watch: {
+        "$usuario": {
+            handler() {
+                setTimeout(() => {
+                    this.checkIfAddressIsValidInLocalStorage();
+                }, 1000)
+            },
+            deep: true
+        }
     },
     methods: {
+        checkIfAddressIsValidInLocalStorage: function () {
+            let selectedAddress = this.getSelectedAddress();
+
+            if (!this.addressList?.length || (selectedAddress?.id && !this.addressList.some(address => address.id === selectedAddress.id))) {
+                this.removeSelectedAddress();
+            }
+        }
     },
     mounted: function () {
+        
     }
 })
 </script>

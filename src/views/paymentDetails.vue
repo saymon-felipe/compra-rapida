@@ -101,8 +101,6 @@ export default defineComponent({
             })
 
             this.api.post("app/orders", { products: data, address_id: this.address.id }).then((response) => {
-                self.clearCart();
-
                 setTimeout(() => {
                     self.loadingButton = false;
                     
@@ -114,6 +112,8 @@ export default defineComponent({
                                 id: response.data.returnObj.id
                             }
                         });
+
+                        self.clearCart({ forceClear: true });
                     }, 400)
                 }, 3000)
             }).catch(async (error) => {
