@@ -315,6 +315,7 @@ input:invalid {
     display: grid;
     gap: var(--space-6);
     margin: var(--space-4) 0;
+    margin-bottom: 5rem;
 
     & .summary-item {
         display: flex;
